@@ -15,6 +15,7 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private long numberPhone;
     private List<Role> roles;
 
     public User(){

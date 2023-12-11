@@ -8,7 +8,9 @@ import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTORespo
 
 @Mapper(componentModel = "spring")
 public interface StudentMapperInfrastuctureDomain {
-    Student mapRequestToStudent(StudentDTORequest student);
+    Student mapRequestToStudent(StudentDTORequest studentRequest);
     StudentDTOResponse mapStudentToResponse(Student student);
     List<StudentDTOResponse> mapStudentsToResponse(List<Student> students);
+    
+
 }

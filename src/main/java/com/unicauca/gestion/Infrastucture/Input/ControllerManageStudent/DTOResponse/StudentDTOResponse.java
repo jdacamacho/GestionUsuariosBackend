@@ -2,15 +2,17 @@ package com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOResp
 
 import java.util.List;
 
-import com.unicauca.gestion.Infrastucture.Input.UserDTO.RoleDTO;
-import com.unicauca.gestion.Infrastucture.Input.UserDTO.UserDTO;
+import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTORequest.RoleDTORequest;
+import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTORequest.UserDTORequest;
+import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.RoleDTOResponse;
+import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.UserDTOResponse;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class StudentDTOResponse extends UserDTO {
+public class StudentDTOResponse extends UserDTOResponse {
     private long codeStudent;
     private AddressDTOResponse address;
 
@@ -19,9 +21,9 @@ public class StudentDTOResponse extends UserDTO {
     }
 
     public StudentDTOResponse(long idUser,String names,String lastNames,String email,
-                   String username,String password,long numberPhone ,List<RoleDTO> roles,
+                   String username,long numberPhone ,List<RoleDTOResponse> roles,
                    long codeStudent,AddressDTOResponse address){
-        super(idUser, names, lastNames, email, username, password,numberPhone,"Habilitado",roles);
+        super(idUser, names, lastNames, email, username,numberPhone,"Habilitado",roles);
         this.codeStudent = codeStudent;
         this.address = address;
     }

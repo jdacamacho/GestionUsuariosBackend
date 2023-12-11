@@ -43,8 +43,8 @@ public class StudentRestController {
 
     @PostMapping("/students")
     public ResponseEntity<?> create(@Valid @RequestBody StudentDTORequest studentRequest){
-        studentRequest.getAddress().setObjStudent(studentRequest);
         Student student = this.mapper.mapRequestToStudent(studentRequest);
+        student.getAddress().setObjStudent(student);
         Map<String,Object> response = new HashMap<>();
         StudentDTOResponse objStudent;
 

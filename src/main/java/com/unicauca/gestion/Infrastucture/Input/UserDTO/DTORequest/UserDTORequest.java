@@ -1,4 +1,4 @@
-package com.unicauca.gestion.Infrastucture.Input.UserDTO;
+package com.unicauca.gestion.Infrastucture.Input.UserDTO.DTORequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,7 @@ import jakarta.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
-public class UserDTO {
+public class UserDTORequest {
 
     @Positive(message = "Identification must be positive")
     @NotNull(message = "Identification can't be null" )
@@ -48,9 +48,9 @@ public class UserDTO {
     private long numberPhone;
     
     private String state;
-    private List<RoleDTO> roles;
+    private List<RoleDTORequest> roles;
 
-    public UserDTO(){
+    public UserDTORequest(){
         this.roles = new ArrayList<>();
     }
 }

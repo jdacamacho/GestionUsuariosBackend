@@ -9,7 +9,7 @@ import lombok.Data;
 public class AddressDTORequest {
     private long idUser;
     
-    private StudentDTORequest objStudent;
+    //private StudentDTORequest objStudent;
 
     @NotNull(message = "residental address can't be null")
     private String residentalAddress;

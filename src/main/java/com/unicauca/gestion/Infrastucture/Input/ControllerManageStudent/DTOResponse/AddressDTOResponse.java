@@ -1,18 +1,18 @@
-package com.unicauca.gestion.Domain.Models;
+package com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Address {
+public class AddressDTOResponse {
     private long idUser;
-    private Student objStudent;
+    private StudentDTOResponse objStudent;
     private String residentalAddress;
     private String city;
     private String country;
 
-    public Address(){
+    public AddressDTOResponse(){
 
     }
 }

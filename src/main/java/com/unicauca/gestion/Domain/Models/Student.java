@@ -18,7 +18,7 @@ public class Student extends User {
     public Student(long idUser,String names,String lastNames,String email,
                    String username,String password,long numberPhone ,List<Role> roles,
                    long codeStudent,Address address){
-        super(idUser, names, lastNames, email, username, password,numberPhone,roles);
+        super(idUser, names, lastNames, email, username, password,numberPhone,"Habilitado",roles);
         this.codeStudent = codeStudent;
         this.address = address;
     }

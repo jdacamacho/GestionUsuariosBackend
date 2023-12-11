@@ -16,6 +16,7 @@ public class User {
     private String username;
     private String password;
     private long numberPhone;
+    private String state;
     private List<Role> roles;
 
     public User(){

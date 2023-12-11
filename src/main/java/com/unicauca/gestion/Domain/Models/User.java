@@ -19,6 +19,13 @@ public class User {
     private String state;
     private List<Role> roles;
 
+    public boolean stateIsValid(){
+        if(!this.state.equals("Habilitado") && !this.state.equals("Inhabilitado")){
+            return false;
+        }
+        return true;
+    }
+
     public User(){
         this.roles = new ArrayList<>();
     }

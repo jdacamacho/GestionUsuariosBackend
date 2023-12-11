@@ -2,12 +2,12 @@ package com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException;
 
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.ErrorCode;
 
-public class BussinesRulException extends ManageRunTimeException{
+public class BussinesRuleException extends ManageRunTimeException{
 
     private static final String EXCEPTION_FORMAT = "%s - Business rule violation: %s";
     private final String businessRule;
 
-    public BussinesRulException(final String businessRule){
+    public BussinesRuleException(final String businessRule){
         super(ErrorCode.BUSINESS_RULE_VIOLATION);
         this.businessRule = businessRule;
     }

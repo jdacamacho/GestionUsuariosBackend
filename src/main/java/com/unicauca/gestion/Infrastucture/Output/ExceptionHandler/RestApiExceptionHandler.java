@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.ErrorCode;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.ErrorUtils;
-import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BussinesRulException;
+import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BussinesRuleException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityExistsException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityNotFound;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.Error;
@@ -61,9 +61,9 @@ public class RestApiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(BussinesRulException.class)
+    @ExceptionHandler(BussinesRuleException.class)
     public ResponseEntity<Error> handleGenericException(final HttpServletRequest req,
-                    final BussinesRulException ex, final Locale locale) {
+                    final BussinesRuleException ex, final Locale locale) {
         final Error error = ErrorUtils
                         .createError(ErrorCode.BUSINESS_RULE_VIOLATION.getCode(), ex.formatException(),
                                         HttpStatus.BAD_REQUEST.value())

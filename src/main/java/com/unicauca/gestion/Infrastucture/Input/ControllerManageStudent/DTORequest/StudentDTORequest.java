@@ -2,11 +2,13 @@ package com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTORequ
 
 import java.util.List;
 
+
 import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTORequest.RoleDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTORequest.UserDTORequest;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +16,9 @@ import lombok.Setter;
 @Setter
 public class StudentDTORequest extends UserDTORequest {
 
-    @NotNull(message = "codeStudent can't be null")
-    @Digits(integer = 12, fraction = 0, message = "codeStudent must have 12 digits")
+    @Positive(message = "codeStudent must be positive and major than zero")
+    @Min(value = 100000000000L, message = "codeStudent must have at least twelve digits" )
+    @Max(value = 999999999999L, message = "codeStudent can't have more than twelve digits" )
     private long codeStudent;
     
     private AddressDTORequest address;

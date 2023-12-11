@@ -3,6 +3,8 @@ package com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.Control
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +20,10 @@ import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOReque
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOResponse.StudentDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.mappers.StudentMapperInfrastuctureDomain;
 
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +40,7 @@ public class StudentRestController {
     private final StudentMapperInfrastuctureDomain mapper;
 
     @GetMapping("/students")
+    @Transactional(readOnly = true)
     public ResponseEntity<List<StudentDTOResponse>> list(){
         List<Student> students = this.studentCU.listStudents();
         ResponseEntity<List<StudentDTOResponse>> objResponse = new ResponseEntity<List<StudentDTOResponse>>(
@@ -44,11 +49,23 @@ public class StudentRestController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity<?> create(@Valid @RequestBody StudentDTORequest studentRequest){
+    @Transactional(readOnly = false)
+    public ResponseEntity<?> create(@Valid @RequestBody StudentDTORequest studentRequest, BindingResult result){
         Student student = this.mapper.mapRequestToStudent(studentRequest);
         student.getAddress().setObjStudent(student);
         Map<String,Object> response = new HashMap<>();
         StudentDTOResponse objStudent;
+
+        if(result.hasErrors()){
+			List<String> listaErrores= new ArrayList<>();
+
+			for (FieldError error : result.getFieldErrors()) {
+				listaErrores.add("El campo '" + error.getField() +"‘ "+ error.getDefaultMessage());
+			}
+
+			response.put("errors", listaErrores);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
 
         try {
             objStudent = this.mapper.mapStudentToResponse(this.studentCU.saveStudent(student));
@@ -62,6 +79,7 @@ public class StudentRestController {
     }
 
     @PutMapping("/students/{idStudent}")
+    @Transactional(readOnly = false)
     public ResponseEntity<?> update (@PathVariable long idStudent,@Valid @RequestBody StudentDTORequest studentRequest){
         Student student = this.mapper.mapRequestToStudent(studentRequest);
         student.getAddress().setObjStudent(student);

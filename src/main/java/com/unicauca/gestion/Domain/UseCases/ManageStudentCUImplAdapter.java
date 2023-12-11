@@ -75,6 +75,7 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
 
     private boolean existsCodeStudetEmailUsernameValid(Student obtainedStudent,
                                                        Student newStudent){
+
         long codeStudent = 0;
         String email = "youWon'tFindThisEmail";
         String username = "youWon'tFindThisUserName";
@@ -84,17 +85,6 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
         if(obtainedStudent.getUsername().equals(newStudent.getUsername()) == false) username = newStudent.getUsername();
 
         return this.gatewayStudent.existsByCodeStudentEmailOrUsername(codeStudent, email, username);
-    }
-
-    @Override
-    public Student getStudent(long idStudent) {
-        Student objStudent = null;
-        if(!this.gatewayStudent.existsById(idStudent)){
-            this.formatterStudent.returnResponseErrorEntityNotFound("Error, Entity with that identification doesn't exists");
-        }else{
-            objStudent = this.gatewayStudent.findById(idStudent);
-        }
-        return objStudent;
     }
     
 }

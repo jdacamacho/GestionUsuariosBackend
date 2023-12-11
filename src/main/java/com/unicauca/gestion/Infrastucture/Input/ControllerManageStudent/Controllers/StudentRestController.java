@@ -48,16 +48,6 @@ public class StudentRestController {
         return objResponse;
     }
 
-    @GetMapping("/students/{idStudent}")
-    @Transactional(readOnly = true)
-    public ResponseEntity<?> getStudent(@PathVariable long idStudent){
-        Student student = this.studentCU.getStudent(idStudent);
-        ResponseEntity<StudentDTOResponse> objResponse = new ResponseEntity<StudentDTOResponse>(
-            mapper.mapStudentToResponse(student),HttpStatus.OK);
-        return objResponse;
-
-    }
-
     @PostMapping("/students")
     @Transactional(readOnly = false)
     public ResponseEntity<?> create(@Valid @RequestBody StudentDTORequest studentRequest, BindingResult result){

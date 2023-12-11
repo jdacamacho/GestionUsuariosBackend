@@ -7,4 +7,5 @@ public interface ManageStudentCUIntPort {
     public Student saveStudent(Student student);
     public List<Student> listStudents(); 
     public Student updateStudent(long idStudent , Student student);
+    public Student getStudent (long idStudent);
 }

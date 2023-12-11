@@ -21,6 +21,7 @@ import jakarta.persistence.ManyToMany;
 @Data
 @AllArgsConstructor
 public class UserEntity {
+    
     @Id
     private long idUser;
     private String names;

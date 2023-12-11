@@ -11,6 +11,5 @@ public interface StudentMapperInfrastuctureDomain {
     Student mapRequestToStudent(StudentDTORequest studentRequest);
     StudentDTOResponse mapStudentToResponse(Student student);
     List<StudentDTOResponse> mapStudentsToResponse(List<Student> students);
-    
 
 }

@@ -7,4 +7,4 @@ public interface ManageStudentGatewayIntPort {
     public List<Student> findAll();
     public boolean existsById(long idStudent);
     public Student save(Student student);
-}
+    public Student findById(long idStudent);}

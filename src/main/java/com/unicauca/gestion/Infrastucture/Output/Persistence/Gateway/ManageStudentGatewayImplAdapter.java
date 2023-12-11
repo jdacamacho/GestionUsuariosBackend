@@ -43,5 +43,12 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
         Student studentResponse = this.mapperStudent.map(studentSaved, Student.class);
         return studentResponse;
     }
+
+    @Override
+    public Student findById(long idStudent) {
+        StudentEntity obtainedStudent = this.serviceAccessBD.findById(idStudent).get();
+        Student studentResponse = this.mapperStudent.map(obtainedStudent,Student.class);
+        return studentResponse;
+    }
     
 }

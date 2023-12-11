@@ -2,8 +2,6 @@ package com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOResp
 
 import java.util.List;
 
-import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTORequest.RoleDTORequest;
-import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTORequest.UserDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.RoleDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.UserDTOResponse;
 

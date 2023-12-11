@@ -30,11 +30,22 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
 
     @Override
     public Student updateStudent(long idStudent, Student student) {
-        if(gatewayStudent.existsById(student.getIdUser())){
-            return this.gatewayStudent.save(student);
-        }else{
-            return null;
+        if(this.gatewayStudent.existsById(idStudent)){
+            Student obtainedStudent = this.gatewayStudent.findById(idStudent);
+            obtainedStudent.setIdUser(student.getIdUser());
+            obtainedStudent.setNames(student.getNames());
+            obtainedStudent.setLastNames(student.getLastNames());
+            obtainedStudent.setEmail(student.getEmail());
+            obtainedStudent.setUsername(student.getUsername());
+            obtainedStudent.setPassword(obtainedStudent.getPassword());
+            obtainedStudent.setNumberPhone(student.getNumberPhone());
+            obtainedStudent.setCodeStudent(student.getCodeStudent());
+            obtainedStudent.setState(student.getState());
+            obtainedStudent.setRoles(student.getRoles());
+            obtainedStudent.setAddress(student.getAddress());
+            return this.gatewayStudent.save(obtainedStudent);
         }
+        return null;
     }
     
 }

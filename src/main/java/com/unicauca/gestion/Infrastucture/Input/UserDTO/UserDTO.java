@@ -6,9 +6,11 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -18,7 +20,7 @@ public class UserDTO {
 
     @Positive(message = "Identification must be positive")
     @NotNull(message = "Identification can't be null" )
-    @Size(min = 10, max = 10, message = "Identificaction can't be longer than 10 characters")
+    @Digits(integer = 10, fraction = 0, message = "Identificaction can't be longer than 10 characters")
     private long idUser;
 
     @NotNull(message = "Names can't be null" )
@@ -41,7 +43,8 @@ public class UserDTO {
     @NotNull(message = "Password can't be null" )
     private String password;
 
-    @Pattern(regexp = "[3][0-9]{9}", message = "Number phone must have a '3' at the beginning and total of 10 digits")
+    @Min(value = 3000000000L, message = "Number phone must have a '3' at the beginning and a total of 10 digits")
+    @Max(value = 3999999999L, message = "Number phone must have a '3' at the beginning and a total of 10 digits")
     private long numberPhone;
     
     private String state;

@@ -8,8 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AddressDTORequest {
     private long idUser;
-
-    @NotNull(message = "this Address doesn't have a user asigned")
+    
     private StudentDTORequest objStudent;
 
     @NotNull(message = "residental address can't be null")

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -41,10 +41,10 @@ public class UserDTORequest {
 
     @NotNull(message = "Username can't be null" )
     @NotBlank(message = "Username can't be empty")
-    @Size(min = 4 , max = 10 , message = "Username must be shorter than 4 characters and longer than 10 characters")
+    @Size(min = 4 , max = 10 , message = "Username can't be shorter than 4 characters and longer than 10 characters")
     private String username;
 
-    @Size(min = 4 , max = 20 , message = "Username must be shorter than 4 characters and longer than 20 characters")
+    @Size(min = 4 , max = 20 , message = "Username can't be shorter than 4 characters and longer than 20 characters")
     @NotNull(message = "Password can't be null" )
     @NotBlank(message = "Password can't be empty")
     private String password;
@@ -58,6 +58,7 @@ public class UserDTORequest {
     private String state;
 
     @Size(min = 1, message = "User must have at least one role")
+    @Valid
     private List<RoleDTORequest> roles;
 
     public UserDTORequest(){

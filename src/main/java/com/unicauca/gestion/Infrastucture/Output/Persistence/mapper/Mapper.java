@@ -4,8 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.unicauca.gestion.Domain.Models.Address;
+import com.unicauca.gestion.Domain.Models.ProfessorType;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.AddressEntity;
-
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorTypeEntity;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -17,6 +18,8 @@ public class Mapper {
         ModelMapper mapper = new ModelMapper();
         TypeMap<AddressEntity,Address> mapAddress = mapper.emptyTypeMap(AddressEntity.class, Address.class);
         mapAddress.addMappings(m -> m.skip(Address::setObjStudent)).implicitMappings();
+        TypeMap<ProfessorTypeEntity,ProfessorType> mapProfessorType = mapper.emptyTypeMap(ProfessorTypeEntity.class, ProfessorType.class);
+        mapProfessorType.addMappings(m -> m.skip(ProfessorType::setProffesors)).implicitMappings();
         return mapper;
     }
 }

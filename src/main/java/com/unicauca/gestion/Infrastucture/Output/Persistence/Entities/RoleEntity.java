@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RoleEntity {
+    
     @Id
     private long idRole;
     private String name;

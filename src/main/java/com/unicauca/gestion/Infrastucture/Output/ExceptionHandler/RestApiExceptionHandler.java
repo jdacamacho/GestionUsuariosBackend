@@ -16,7 +16,7 @@ import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStruc
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.ErrorUtils;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BussinesRuleException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityExistsException;
-import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityNotFound;
+import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityNotFoundException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.Error;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,9 +48,9 @@ public class RestApiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @ExceptionHandler(EntityNotFound.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Error> handleGenericException(final HttpServletRequest req,
-                    final EntityNotFound ex, final Locale locale) {
+                    final EntityNotFoundException ex, final Locale locale) {
         final Error error = ErrorUtils
                         .createError(ErrorCode.ENTITY_NOT_FOUND.getCode(),
                                         String.format("%s, %s",

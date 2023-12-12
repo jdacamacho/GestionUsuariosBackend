@@ -86,5 +86,16 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
 
         return this.gatewayStudent.existsByCodeStudentEmailOrUsername(codeStudent, email, username);
     }
+
+    @Override
+    public Student getStudent(long idStudent) {
+        Student student = null;
+        if(!this.gatewayStudent.existsById(idStudent)){
+            this.formatterStudent.returnResponseErrorEntityNotFound("There is no entity with that idStudent");
+        }else{
+            student = this.gatewayStudent.findById(idStudent);
+        }
+        return student;
+    }
     
 }

@@ -5,17 +5,17 @@ import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStruc
 import lombok.Getter;
 
 @Getter
-public class EntityNotFound extends RuntimeException{
+public class EntityNotFoundException extends RuntimeException{
     private final String messageKey;
     private final String code;
 
-    public EntityNotFound(ErrorCode code){
+    public EntityNotFoundException(ErrorCode code){
       super(code.getCode());
       this.messageKey = code.getMessageKey();
       this.code = code.getCode();
     }
 
-    public EntityNotFound(final String message){
+    public EntityNotFoundException(final String message){
       super(message);
       this.messageKey = ErrorCode.ENTITY_NOT_FOUND.getCode();
       this.code = ErrorCode.ENTITY_NOT_FOUND.getCode();

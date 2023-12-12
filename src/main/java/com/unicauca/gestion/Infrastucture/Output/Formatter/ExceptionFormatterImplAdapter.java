@@ -4,8 +4,7 @@ import org.springframework.stereotype.Service;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BussinesRuleException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityExistsException;
-
-import jakarta.persistence.EntityNotFoundException;
+import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityNotFoundException;
 
 @Service
 public class ExceptionFormatterImplAdapter implements ExceptionFormatterIntPort{

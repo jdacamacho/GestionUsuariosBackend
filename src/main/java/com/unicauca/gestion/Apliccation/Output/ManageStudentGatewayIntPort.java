@@ -7,4 +7,6 @@ public interface ManageStudentGatewayIntPort {
     public List<Student> findAll();
     public boolean existsById(long idStudent);
     public Student save(Student student);
-    public Student findById(long idStudent);}
+    public Student findById(long idStudent);
+    public boolean existsByCodeStudentEmailOrUsername(long codeStudent,String email,String username);
+}

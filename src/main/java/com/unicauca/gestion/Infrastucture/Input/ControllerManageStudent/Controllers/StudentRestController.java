@@ -80,11 +80,22 @@ public class StudentRestController {
 
     @PutMapping("/students/{idStudent}")
     @Transactional(readOnly = false)
-    public ResponseEntity<?> update (@PathVariable long idStudent,@Valid @RequestBody StudentDTORequest studentRequest){
+    public ResponseEntity<?> update (@PathVariable long idStudent,@Valid @RequestBody StudentDTORequest studentRequest,BindingResult result){
         Student student = this.mapper.mapRequestToStudent(studentRequest);
         student.getAddress().setObjStudent(student);
         Map<String,Object> response = new HashMap<>();
         StudentDTOResponse objStudent;
+
+        if(result.hasErrors()){
+			List<String> listaErrores= new ArrayList<>();
+
+			for (FieldError error : result.getFieldErrors()) {
+				listaErrores.add("El campo '" + error.getField() +"‘ "+ error.getDefaultMessage());
+			}
+
+			response.put("errors", listaErrores);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
 
         try {
             objStudent = this.mapper.mapStudentToResponse(this.studentCU.updateStudent(idStudent, student) );

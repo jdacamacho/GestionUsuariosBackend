@@ -50,5 +50,13 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
         Student studentResponse = this.mapperStudent.map(obtainedStudent,Student.class);
         return studentResponse;
     }
+
+    @Override
+    public boolean existsByCodeStudentEmailOrUsername(long codeStudent, String email, String username) {
+        boolean flagStudent = false;
+        StudentEntity obtainedStudent = this.serviceAccessBD.findByCodeStudentOrEmailOrUsername(codeStudent, email, username);
+        if(obtainedStudent != null) flagStudent = true;
+        return flagStudent;
+    }
     
 }

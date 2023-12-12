@@ -2,6 +2,7 @@ package com.unicauca.gestion.Domain.Models;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 
 @Getter

@@ -22,5 +22,4 @@ public class Student extends User {
         this.codeStudent = codeStudent;
         this.address = address;
     }
-
 }

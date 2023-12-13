@@ -10,7 +10,7 @@ import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.RoleEntity
 
 public interface ProfessorRepository extends CrudRepository<ProfessorEntity,Long>{
 
-    @Query("from RoleEntity")
+    @Query("from RoleEntity r WHERE r.name <> 'Estudiante'")
     List<RoleEntity> findAllRoles();
 
     @Query("from ProfessorTypeEntity")

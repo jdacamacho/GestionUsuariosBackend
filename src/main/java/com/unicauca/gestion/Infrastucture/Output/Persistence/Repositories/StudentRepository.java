@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface StudentRepository extends CrudRepository<StudentEntity,Long>{
 
-    @Query("from RoleEntity")
+    @Query("from RoleEntity r WHERE r.name <> 'Administrador' AND r.name <> 'Docente'")
     List<RoleEntity> findAllRoles();
 
     StudentEntity findByCodeStudentOrEmailOrUsername(long idStudent,String email, String username);

@@ -6,6 +6,8 @@ import com.unicauca.gestion.Apliccation.Input.ManageProfessorCUIntport;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
 import com.unicauca.gestion.Apliccation.Output.ManageProfesorGatewayIntPort;
 import com.unicauca.gestion.Domain.Models.Professor;
+import com.unicauca.gestion.Domain.Models.ProfessorType;
+import com.unicauca.gestion.Domain.Models.Role;
 
 public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
 
@@ -87,5 +89,15 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
             professor = this.gatewayProfessor.findById(idProfessor);
         }   
         return professor;
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return this.gatewayProfessor.findAllRoles();
+    }
+
+    @Override
+    public List<ProfessorType> getProfessorTypes() {
+        return this.gatewayProfessor.findAllProfessorType();
     }
 }

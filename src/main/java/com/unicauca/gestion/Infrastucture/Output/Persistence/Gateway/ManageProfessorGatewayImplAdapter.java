@@ -8,25 +8,29 @@ import org.springframework.stereotype.Service;
 
 import com.unicauca.gestion.Apliccation.Output.ManageProfesorGatewayIntPort;
 import com.unicauca.gestion.Domain.Models.Professor;
+import com.unicauca.gestion.Domain.Models.ProfessorType;
+import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorEntity;
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorTypeEntity;
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.RoleEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Repositories.ProfessorRepository;
 
 @Service
 public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayIntPort{
 
     private final ProfessorRepository serviceAccessBD;
-    private final ModelMapper mapperProfessor;
+    private final ModelMapper mapper;
 
     public ManageProfessorGatewayImplAdapter(ProfessorRepository serviceAccessBD,
-                                            ModelMapper mapperProfessor){
+                                            ModelMapper mapper){
         this.serviceAccessBD = serviceAccessBD;
-        this.mapperProfessor = mapperProfessor;
+        this.mapper = mapper;
     }
 
     @Override
     public List<Professor> findAll() {
         Iterable<ProfessorEntity> itarableProfessor = this.serviceAccessBD.findAll();
-        List<Professor> obtainedList = this.mapperProfessor.map(itarableProfessor,new TypeToken<List<Professor>>(){
+        List<Professor> obtainedList = this.mapper.map(itarableProfessor,new TypeToken<List<Professor>>(){
         }.getType());
         return obtainedList;
     }
@@ -38,16 +42,16 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
 
     @Override
     public Professor save(Professor professor) {
-        ProfessorEntity professorToSave = this.mapperProfessor.map(professor, ProfessorEntity.class);
+        ProfessorEntity professorToSave = this.mapper.map(professor, ProfessorEntity.class);
         ProfessorEntity professorSaved = this.serviceAccessBD.save(professorToSave);
-        Professor professorResponse = this.mapperProfessor.map(professorSaved, Professor.class);
+        Professor professorResponse = this.mapper.map(professorSaved, Professor.class);
         return professorResponse;
     }
 
     @Override
     public Professor findById(long idProfessor) {
         ProfessorEntity obtainedProfessor = this.serviceAccessBD.findById(idProfessor).get();
-        Professor professorResponse = this.mapperProfessor.map(obtainedProfessor, Professor.class);
+        Professor professorResponse = this.mapper.map(obtainedProfessor, Professor.class);
         return professorResponse;
     }
 
@@ -57,6 +61,24 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
         ProfessorEntity obtainedProfessor = this.serviceAccessBD.findByCodeProfessorOrEmailOrUsername(codeProfessor, email, username);
         if(obtainedProfessor != null) flagResponse = true;
         return flagResponse;
+    }
+
+    @Override
+    public List<Role> findAllRoles() {
+       /*  List<RoleEntity> roles = this.serviceAccessBD.findRoleEntities() ;
+        List<Role> rolesResponse = this.mapper.map(roles,new TypeToken<List<Role>>(){
+        }.getType());
+        return rolesResponse;*/
+        return null;
+    }
+
+    @Override
+    public List<ProfessorType> findAllProfessorType() {
+        /*List<ProfessorTypeEntity> professorTypes = this.serviceAccessBD.findProfessorTypeEntities() ;
+        List<ProfessorType> professorTypeResponse = this.mapper.map(professorTypes, new TypeToken<List<ProfessorType>>(){
+        }.getType());
+        return professorTypeResponse;*/
+        return null;
     }
     
 }

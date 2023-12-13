@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unicauca.gestion.Apliccation.Input.ManageProfessorCUIntport;
 import com.unicauca.gestion.Domain.Models.Professor;
+import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTORequest.ProfessorDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTOResponse.ProfessorDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.Mapper.ProfessorMapperInfrastuctureDomain;
+import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.RoleDTOResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +54,15 @@ public class ProfessorRestController {
         Professor professor = this.professorCU.getProfessor(idProfessor);
         ResponseEntity<ProfessorDTOResponse> objResponse = new ResponseEntity<ProfessorDTOResponse>(
             this.professorMapper.mapProfessorToResponse(professor),HttpStatus.OK);
+        return objResponse;
+    }
+
+    @GetMapping("/professors/roles")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<RoleDTOResponse>> getRoles(){
+        List<Role> roles = this.professorCU.getRoles();
+        ResponseEntity<List<RoleDTOResponse>> objResponse = new ResponseEntity<List<RoleDTOResponse>>(
+        this.professorMapper.mapRoleToResponse(roles),HttpStatus.OK);
         return objResponse;
     }
 

@@ -21,6 +21,10 @@ public class ProfessorEntity extends UserEntity{
     @JoinColumn(name = "idProfessorType")
     private ProfessorTypeEntity objProfessorType;
 
+    public ProfessorEntity(){
+        
+    }
+
     public ProfessorEntity(long idUser,String names,String lastNames,String email,
                    String username,String password,long numberPhone, List<RoleEntity> roles,
                    long codeProfessor,ProfessorTypeEntity objProfessorType){

@@ -12,6 +12,9 @@ public class Professor extends User{
     private long codeProfessor;
     private ProfessorType objProfessorType;
 
+    public Professor(){
+        
+    }
 
     public Professor(long idUser,String names,String lastNames,String email,
                    String username,String password,long numberPhone, List<Role> roles,

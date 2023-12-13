@@ -80,7 +80,12 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
 
     @Override
     public Professor getProfessor(long idProfessor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getProfessor'");
+        Professor professor = null;
+        if(!this.gatewayProfessor.existsById(idProfessor)){
+            this.formatterProfessor.returnResponseErrorEntityNotFound("ERROR, entity wasn't found");
+        }else{
+            professor = this.gatewayProfessor.findById(idProfessor);
+        }   
+        return professor;
     }
 }

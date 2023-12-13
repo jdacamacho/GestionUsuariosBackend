@@ -1,5 +1,6 @@
 package com.unicauca.gestion.Apliccation.Input;
 
+import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Domain.Models.Student;
 import java.util.List;
 
@@ -8,4 +9,5 @@ public interface ManageStudentCUIntPort {
     public List<Student> listStudents(); 
     public Student updateStudent(long idStudent , Student student);
     public Student getStudent(long idStudent);
+    public List<Role> getRoles();
 }

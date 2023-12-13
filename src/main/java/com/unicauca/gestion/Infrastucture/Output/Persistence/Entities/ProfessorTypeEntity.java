@@ -7,10 +7,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Entity(name = "professorTypes")
+@Entity
+@Table(name = "professorTypes")
 @Data
 @AllArgsConstructor
 public class ProfessorTypeEntity {

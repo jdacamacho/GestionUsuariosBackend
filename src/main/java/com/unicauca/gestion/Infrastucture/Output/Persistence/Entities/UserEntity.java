@@ -15,8 +15,10 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @AllArgsConstructor
@@ -38,7 +40,7 @@ public class UserEntity {
 
     private String state;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "roles_user",
         joinColumns = @JoinColumn(name = "idUser"),
         inverseJoinColumns = @JoinColumn(name = "idRole"))

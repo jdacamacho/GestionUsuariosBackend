@@ -5,6 +5,7 @@ import java.util.List;
 import com.unicauca.gestion.Apliccation.Input.ManageStudentCUIntPort;
 import com.unicauca.gestion.Apliccation.Output.ManageStudentGatewayIntPort;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
+import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Domain.Models.Student;
 
 public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
@@ -96,6 +97,11 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
             student = this.gatewayStudent.findById(idStudent);
         }
         return student;
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return this.gatewayStudent.findAllRoles();
     }
     
 }

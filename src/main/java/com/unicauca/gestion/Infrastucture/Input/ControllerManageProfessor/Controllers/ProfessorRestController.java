@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unicauca.gestion.Apliccation.Input.ManageProfessorCUIntport;
 import com.unicauca.gestion.Domain.Models.Professor;
+import com.unicauca.gestion.Domain.Models.ProfessorType;
 import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTORequest.ProfessorDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTOResponse.ProfessorDTOResponse;
+import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTOResponse.ProfessorTypeDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.Mapper.ProfessorMapperInfrastuctureDomain;
 import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.RoleDTOResponse;
 
@@ -37,14 +39,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProfessorRestController {
     private final ManageProfessorCUIntport professorCU;
-    private final ProfessorMapperInfrastuctureDomain professorMapper;
+    private final ProfessorMapperInfrastuctureDomain mapper;
 
     @GetMapping("/professors")
     @Transactional(readOnly = true)
     public ResponseEntity<List<ProfessorDTOResponse>> list(){
         List<Professor> professors = this.professorCU.listProfessors();
         ResponseEntity<List<ProfessorDTOResponse>> objResponse = new ResponseEntity<List<ProfessorDTOResponse>>(
-            this.professorMapper.mapProfessorsToResponse(professors),HttpStatus.OK);
+            this.mapper.mapProfessorsToResponse(professors),HttpStatus.OK);
         return objResponse;
     }
 
@@ -53,7 +55,7 @@ public class ProfessorRestController {
     public ResponseEntity<?> getProfessor(@PathVariable long idProfessor){
         Professor professor = this.professorCU.getProfessor(idProfessor);
         ResponseEntity<ProfessorDTOResponse> objResponse = new ResponseEntity<ProfessorDTOResponse>(
-            this.professorMapper.mapProfessorToResponse(professor),HttpStatus.OK);
+            this.mapper.mapProfessorToResponse(professor),HttpStatus.OK);
         return objResponse;
     }
 
@@ -62,14 +64,22 @@ public class ProfessorRestController {
     public ResponseEntity<List<RoleDTOResponse>> getRoles(){
         List<Role> roles = this.professorCU.getRoles();
         ResponseEntity<List<RoleDTOResponse>> objResponse = new ResponseEntity<List<RoleDTOResponse>>(
-        this.professorMapper.mapRoleToResponse(roles),HttpStatus.OK);
+            this.mapper.mapRoleToResponse(roles),HttpStatus.OK);
+        return objResponse;
+    }
+
+    @GetMapping("/professors/professorsType")
+    public ResponseEntity<List<ProfessorTypeDTOResponse>> getProfessorType(){
+        List<ProfessorType> professorTypes = this.professorCU.getProfessorTypes();
+        ResponseEntity<List<ProfessorTypeDTOResponse>> objResponse = new ResponseEntity<List<ProfessorTypeDTOResponse>>(
+            this.mapper.mapProfessorTypeToResponse(professorTypes),HttpStatus.OK);
         return objResponse;
     }
 
     @PostMapping("/professors")
     @Transactional(readOnly = false)
     public ResponseEntity<?> save (@Valid @RequestBody ProfessorDTORequest professorRequest, BindingResult result){
-        Professor professor = this.professorMapper.mapRequestToProfessor(professorRequest);
+        Professor professor = this.mapper.mapRequestToProfessor(professorRequest);
         Map<String,Object> response = new HashMap<>();
         ProfessorDTOResponse objProfessor;
 
@@ -85,7 +95,7 @@ public class ProfessorRestController {
 		}
 
         try {
-            objProfessor = this.professorMapper.mapProfessorToResponse(this.professorCU.saveProfessor(professor));
+            objProfessor = this.mapper.mapProfessorToResponse(this.professorCU.saveProfessor(professor));
         }catch(DataAccessException e) {
             response.put("mensaje", "Error al realizar la inserción en la base de datos");
 			response.put("error", e.getMessage() + "" + e.getMostSpecificCause().getMessage());
@@ -98,7 +108,7 @@ public class ProfessorRestController {
     @PutMapping("/professors/{idProfessor}")
     @Transactional(readOnly = false)
     public ResponseEntity<?> update (@PathVariable long idProfessor,@Valid @RequestBody ProfessorDTORequest professorRequest,BindingResult result){
-        Professor professor = this.professorMapper.mapRequestToProfessor(professorRequest);
+        Professor professor = this.mapper.mapRequestToProfessor(professorRequest);
         Map<String,Object> response = new HashMap<>();
         ProfessorDTOResponse objProfessor;
 
@@ -114,7 +124,7 @@ public class ProfessorRestController {
 		}
 
         try {
-            objProfessor = this.professorMapper.mapProfessorToResponse(this.professorCU.updateProfessor(idProfessor, professor));
+            objProfessor = this.mapper.mapProfessorToResponse(this.professorCU.updateProfessor(idProfessor, professor));
         }catch(DataAccessException e) {
             response.put("mensaje", "Error al realizar la actualizacion en la base de datos");
 			response.put("error", e.getMessage() + "" + e.getMostSpecificCause().getMessage());

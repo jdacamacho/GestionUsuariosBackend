@@ -65,20 +65,17 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
 
     @Override
     public List<Role> findAllRoles() {
-       /*  List<RoleEntity> roles = this.serviceAccessBD.findRoleEntities() ;
-        List<Role> rolesResponse = this.mapper.map(roles,new TypeToken<List<Role>>(){
+        List<RoleEntity> rolesObtained = this.serviceAccessBD.findAllRoles();
+        List<Role> roleResponse = this.mapper.map(rolesObtained, new TypeToken<List<Role>>(){
         }.getType());
-        return rolesResponse;*/
-        return null;
+        return roleResponse;
     }
 
     @Override
-    public List<ProfessorType> findAllProfessorType() {
-        /*List<ProfessorTypeEntity> professorTypes = this.serviceAccessBD.findProfessorTypeEntities() ;
-        List<ProfessorType> professorTypeResponse = this.mapper.map(professorTypes, new TypeToken<List<ProfessorType>>(){
+    public List<ProfessorType> findAllProfessorTypes() {
+        List<ProfessorTypeEntity> professorTypeObtained = this.serviceAccessBD.findAllProfessorType();
+        List<ProfessorType> professorTypeResponse = this.mapper.map(professorTypeObtained, new TypeToken<List<ProfessorType>>(){
         }.getType());
-        return professorTypeResponse;*/
-        return null;
+        return professorTypeResponse;
     }
-    
 }

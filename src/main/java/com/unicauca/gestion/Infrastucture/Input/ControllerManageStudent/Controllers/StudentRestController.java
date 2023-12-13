@@ -19,10 +19,11 @@ import com.unicauca.gestion.Domain.Models.Student;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTORequest.StudentDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOResponse.StudentDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.mappers.StudentMapperInfrastuctureDomain;
+import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.RoleDTOResponse;
 
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
-
+import com.unicauca.gestion.Domain.Models.Role;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,15 @@ public class StudentRestController {
         List<Student> students = this.studentCU.listStudents();
         ResponseEntity<List<StudentDTOResponse>> objResponse = new ResponseEntity<List<StudentDTOResponse>>(
             mapper.mapStudentsToResponse(students),HttpStatus.OK);
+        return objResponse;
+    }
+
+    @GetMapping("/students/roles")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<RoleDTOResponse>> getRoles(){
+        List<Role> roles = this.studentCU.getRoles();
+        ResponseEntity<List<RoleDTOResponse>> objResponse = new ResponseEntity<List<RoleDTOResponse>>(
+            mapper.mapRoleToResponse(roles),HttpStatus.OK);
         return objResponse;
     }
 

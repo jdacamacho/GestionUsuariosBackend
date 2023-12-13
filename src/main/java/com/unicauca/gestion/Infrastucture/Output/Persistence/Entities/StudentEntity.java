@@ -7,10 +7,12 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "students")
+@Entity
+@Table(name = "students")
 @Getter
 @Setter
 public class StudentEntity extends UserEntity {

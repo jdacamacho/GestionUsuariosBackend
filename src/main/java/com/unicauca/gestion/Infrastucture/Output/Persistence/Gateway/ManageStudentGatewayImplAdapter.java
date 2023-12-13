@@ -7,7 +7,9 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import com.unicauca.gestion.Apliccation.Output.ManageStudentGatewayIntPort;
+import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Domain.Models.Student;
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.RoleEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.StudentEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Repositories.StudentRepository;
 
@@ -15,18 +17,18 @@ import com.unicauca.gestion.Infrastucture.Output.Persistence.Repositories.Studen
 public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntPort{
 
     private final StudentRepository serviceAccessBD;
-    private final ModelMapper mapperStudent;
+    private final ModelMapper mapper;
 
     public ManageStudentGatewayImplAdapter(StudentRepository serviceAccessBD,
-                                          ModelMapper mapperStudent){
+                                          ModelMapper mapper){
         this.serviceAccessBD = serviceAccessBD;
-        this.mapperStudent = mapperStudent;
+        this.mapper = mapper;
     }
 
     @Override
     public List<Student> findAll() {
         Iterable<StudentEntity> iterableStudent = this.serviceAccessBD.findAll();
-        List<Student> obtainedList = this.mapperStudent.map(iterableStudent,new TypeToken<List<Student>>() {
+        List<Student> obtainedList = this.mapper.map(iterableStudent,new TypeToken<List<Student>>() {
         }.getType());
         return obtainedList;
     }
@@ -38,16 +40,16 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
 
     @Override
     public Student save(Student student) {
-        StudentEntity studentToSave = this.mapperStudent.map(student, StudentEntity.class);
+        StudentEntity studentToSave = this.mapper.map(student, StudentEntity.class);
         StudentEntity studentSaved = this.serviceAccessBD.save(studentToSave);
-        Student studentResponse = this.mapperStudent.map(studentSaved, Student.class);
+        Student studentResponse = this.mapper.map(studentSaved, Student.class);
         return studentResponse;
     }
 
     @Override
     public Student findById(long idStudent) {
         StudentEntity obtainedStudent = this.serviceAccessBD.findById(idStudent).get();
-        Student studentResponse = this.mapperStudent.map(obtainedStudent,Student.class);
+        Student studentResponse = this.mapper.map(obtainedStudent,Student.class);
         return studentResponse;
     }
 
@@ -57,6 +59,14 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
         StudentEntity obtainedStudent = this.serviceAccessBD.findByCodeStudentOrEmailOrUsername(codeStudent, email, username);
         if(obtainedStudent != null) flagResponse = true;
         return flagResponse;
+    }
+
+    @Override
+    public List<Role> findAllRoles() {
+        List<RoleEntity> roles = this.serviceAccessBD.findAllRoles();
+        List<Role> rolesResponse = this.mapper.map(roles, new TypeToken<List<Role>>(){    
+        }.getType());
+        return rolesResponse;
     }
     
 }

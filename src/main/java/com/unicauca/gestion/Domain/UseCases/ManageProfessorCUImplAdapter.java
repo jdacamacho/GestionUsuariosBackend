@@ -98,6 +98,6 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
 
     @Override
     public List<ProfessorType> getProfessorTypes() {
-        return this.gatewayProfessor.findAllProfessorType();
+       return this.gatewayProfessor.findAllProfessorTypes();
     }
 }

@@ -15,4 +15,6 @@ public interface StudentRepository extends CrudRepository<StudentEntity,Long>{
 
     @Query("SELECT COUNT(u) FROM UserEntity u WHERE u.idUser = :idUser OR u.email = :email OR u.username = :username")
     long countByIdUserOrEmailOrUsername(@Param("idUser") long idUser, @Param("email") String email, @Param("username") String username);
+
+    StudentEntity findByCodeStudent(long codeStudent);
 }

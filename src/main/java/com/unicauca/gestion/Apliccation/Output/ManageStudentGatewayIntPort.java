@@ -11,4 +11,5 @@ public interface ManageStudentGatewayIntPort {
     public Student findById(long idStudent);
     public long existsByIdUserEmailOrUsername(long idUser,String email,String username);
     public List<Role> findAllRoles();
+    public boolean existByCodeStudent(long codeStudent);
 }

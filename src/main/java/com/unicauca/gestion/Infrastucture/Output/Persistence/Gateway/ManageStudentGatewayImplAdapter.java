@@ -65,5 +65,13 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
         }.getType());
         return rolesResponse;
     }
+
+    @Override
+    public boolean existByCodeStudent(long codeStudent) {
+        boolean flagResponse = false;
+        StudentEntity student = this.serviceAccessBD.findByCodeStudent(codeStudent);
+        if(student != null) flagResponse = true;
+        return flagResponse;
+    }
     
 }

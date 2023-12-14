@@ -26,15 +26,19 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
         if(this.gatewayProfessor.existsByIdUserEmailOrUsername(professor.getIdUser(), professor.getEmail(), professor.getUsername()) > 0){
             this.formatterProfessor.returnResponseErrorEntityExists("There is an entity with that id User,email or username");
         }else{
-            if(!professor.stateIsValid()){
-                this.formatterProfessor.returnResponseBusinessRuleViolated("Error,state is not valid");
-            }else if(!professor.isValidRole(this.gatewayProfessor.findAllRoles())){
-                this.formatterProfessor.returnResponseBusinessRuleViolated("Error, role is not valid");
-            }else if(!professor.isValidProfessorType(this.gatewayProfessor.findAllProfessorTypes())){
-                this.formatterProfessor.returnResponseBusinessRuleViolated("Error, professor type is not valid");
+            if(this.gatewayProfessor.existByCodeProfessor(professor.getCodeProfessor())){
+                this.formatterProfessor.returnResponseErrorEntityExists("Error, there is an entity with that code professor");
             }else{
-                objProfessor = this.gatewayProfessor.save(professor);
-            }
+                if (!professor.stateIsValid()) {
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error,state is not valid");
+                } else if (!professor.isValidRole(this.gatewayProfessor.findAllRoles())) {
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error, role is not valid");
+                } else if (!professor.isValidProfessorType(this.gatewayProfessor.findAllProfessorTypes())) {
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error, professor type is not valid");
+                } else {
+                    objProfessor = this.gatewayProfessor.save(professor);
+                }
+            } 
         }
         return objProfessor;
     }
@@ -69,7 +73,6 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
                     obtainedProfessor.setCodeProfessor(professor.getCodeProfessor());
                     obtainedProfessor.setState(professor.getState());
                     obtainedProfessor.setRoles(professor.getRoles());
-                    obtainedProfessor.setCodeProfessor(professor.getCodeProfessor());
                     obtainedProfessor.setObjProfessorType(professor.getObjProfessorType());
                     objProfessor = this.gatewayProfessor.save(obtainedProfessor);
                 }

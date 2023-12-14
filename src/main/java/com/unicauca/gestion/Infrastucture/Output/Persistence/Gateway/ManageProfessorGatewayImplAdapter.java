@@ -76,4 +76,12 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
             String username) {
         return this.serviceAccessBD.countByIdUserOrEmailOrUsername(idUser, email, username);
     }
+
+    @Override
+    public boolean existByCodeProfessor(long codeProfessor) {
+        boolean flagResponse = false;
+        ProfessorEntity professor = this.serviceAccessBD.findByCodeProfessor(codeProfessor);
+        if(professor !=  null) flagResponse = true;
+        return flagResponse;
+    }
 }

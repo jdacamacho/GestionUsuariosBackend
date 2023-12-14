@@ -25,12 +25,16 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
         if(gatewayStudent.existsByIdUserEmailOrUsername(student.getIdUser(), student.getEmail(), student.getUsername()) > 0){
             this.formatterStudent.returnResponseErrorEntityExists("Error, There is a user with that idUser,email or username in the System");
         }else{
-            if (student.stateIsValid() == false) {
-                this.formatterStudent.returnResponseBusinessRuleViolated("Error, State is not valid");
-            } else if (!student.isValidRole(this.gatewayStudent.findAllRoles())) {
-                this.formatterStudent.returnResponseBusinessRuleViolated("Error, role no valid to a Student");
-            } else {
-                objStudent = this.gatewayStudent.save(student);
+            if(this.gatewayStudent.existByCodeStudent(student.getCodeStudent())){
+                this.formatterStudent.returnResponseErrorEntityExists("Error, entity exists with tha student code");
+            }else{
+                if (student.stateIsValid() == false) {
+                    this.formatterStudent.returnResponseBusinessRuleViolated("Error, State is not valid");
+                } else if (!student.isValidRole(this.gatewayStudent.findAllRoles())) {
+                    this.formatterStudent.returnResponseBusinessRuleViolated("Error, role no valid to a Student");
+                } else {
+                    objStudent = this.gatewayStudent.save(student);
+                }
             }
         }
         return objStudent;
@@ -64,7 +68,6 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
                     obtainedStudent.setEmail(student.getEmail());
                     obtainedStudent.setUsername(student.getUsername());
                     obtainedStudent.setNumberPhone(student.getNumberPhone());
-                    obtainedStudent.setCodeStudent(student.getCodeStudent());
                     obtainedStudent.setState(student.getState());
                     obtainedStudent.setRoles(student.getRoles());
                     obtainedStudent.setAddress(student.getAddress());

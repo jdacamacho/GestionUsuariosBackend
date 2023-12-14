@@ -13,4 +13,5 @@ public interface ManageProfesorGatewayIntPort {
     public long existsByIdUserEmailOrUsername(long idUser,String email,String uernam);
     public List<Role> findAllRoles();
     public List<ProfessorType> findAllProfessorTypes();
+    public boolean existByCodeProfessor(long codeProfessor);
 }

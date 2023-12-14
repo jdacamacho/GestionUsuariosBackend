@@ -18,8 +18,8 @@ public interface ProfessorRepository extends CrudRepository<ProfessorEntity,Long
     @Query("from ProfessorTypeEntity")
     List<ProfessorTypeEntity> findAllProfessorType();
 
-    ProfessorEntity findByCodeProfessor(long codeProfessor);
-
     @Query("SELECT COUNT(u) FROM UserEntity u WHERE u.idUser = :idUser OR u.email = :email OR u.username = :username")
     long countByIdUserOrEmailOrUsername(@Param("idUser") long idUser, @Param("email") String email, @Param("username") String username);
+
+    ProfessorEntity findByCodeProfessor(long codeProfessor);
 }

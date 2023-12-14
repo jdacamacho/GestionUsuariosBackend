@@ -23,21 +23,17 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
     @Override
     public Professor saveProfessor(Professor professor) {
         Professor objProfessor = null;
-        if(this.gatewayProfessor.existsById(professor.getIdUser())){
-            this.formatterProfessor.returnResponseErrorEntityExists("Entity already exists in the System");
+        if(this.gatewayProfessor.existsByIdUserEmailOrUsername(professor.getIdUser(), professor.getEmail(), professor.getUsername()) > 0){
+            this.formatterProfessor.returnResponseErrorEntityExists("There is an entity with that id User,email or username");
         }else{
-            if(this.gatewayProfessor.existsByIdUserEmailOrUsername(professor.getIdUser(), professor.getEmail(), professor.getUsername()) > 0){
-                this.formatterProfessor.returnResponseErrorEntityExists("There is an entity with that id User,email or username");
+            if(!professor.stateIsValid()){
+                this.formatterProfessor.returnResponseBusinessRuleViolated("Error,state is not valid");
+            }else if(!professor.isValidRole(this.gatewayProfessor.findAllRoles())){
+                this.formatterProfessor.returnResponseBusinessRuleViolated("Error, role is not valid");
+            }else if(!professor.isValidProfessorType(this.gatewayProfessor.findAllProfessorTypes())){
+                this.formatterProfessor.returnResponseBusinessRuleViolated("Error, professor type is not valid");
             }else{
-                if(!professor.stateIsValid()){
-                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error,state is not valid");
-                }else if(!professor.isValidRole(this.gatewayProfessor.findAllRoles())){
-                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error, role is not valid");
-                }else if(!professor.isValidProfessorType(this.gatewayProfessor.findAllProfessorTypes())){
-                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error, professor type is not valid");
-                }else{
-                    objProfessor = this.gatewayProfessor.save(professor);
-                }
+                objProfessor = this.gatewayProfessor.save(professor);
             }
         }
         return objProfessor;
@@ -50,9 +46,9 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
 
     @Override
     public Professor updateProfessor(long idProfessor, Professor professor) {
-        Professor objStudent = null;
-        if(!this.gatewayProfessor.existsById(idProfessor)){
-            this.formatterProfessor.returnResponseErrorEntityNotFound("Entity not found");
+        Professor objProfessor = null;
+        if(this.gatewayProfessor.existsByIdUserEmailOrUsername(professor.getIdUser(), professor.getEmail(), professor.getUsername()) <= 0){
+            this.formatterProfessor.returnResponseErrorEntityExists("Error entity was not found");
         }else{
             Professor obtainedProfessor = this.gatewayProfessor.findById(idProfessor);
             if(existsIdUserEmailUsernameValid(obtainedProfessor,professor) > 0){
@@ -75,11 +71,11 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
                     obtainedProfessor.setRoles(professor.getRoles());
                     obtainedProfessor.setCodeProfessor(professor.getCodeProfessor());
                     obtainedProfessor.setObjProfessorType(professor.getObjProfessorType());
-                    objStudent = this.gatewayProfessor.save(obtainedProfessor);
+                    objProfessor = this.gatewayProfessor.save(obtainedProfessor);
                 }
             }
         }
-        return objStudent;
+        return objProfessor;
     }
 
     private long existsIdUserEmailUsernameValid(Professor obtainedProfessor,

@@ -10,7 +10,7 @@ public interface ManageProfesorGatewayIntPort {
     public boolean existsById(long idProfessor);
     public Professor save(Professor professor);
     public Professor findById(long idProfessor);
-    public boolean existsByCodeProfessorEmailOrUsernam(long codeProfessor,String email,String usernam);
+    public long existsByIdUserEmailOrUsername(long idUser,String email,String uernam);
     public List<Role> findAllRoles();
     public List<ProfessorType> findAllProfessorTypes();
 }

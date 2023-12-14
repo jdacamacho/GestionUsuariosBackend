@@ -26,10 +26,18 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
         if(this.gatewayProfessor.existsById(professor.getIdUser())){
             this.formatterProfessor.returnResponseErrorEntityExists("Entity already exists in the System");
         }else{
-            if(this.gatewayProfessor.existsByCodeProfessorEmailOrUsernam(professor.getCodeProfessor(), professor.getEmail(), professor.getUsername())){
-                this.formatterProfessor.returnResponseErrorEntityExists("There is an entity with that codeProfessor,email or username");
+            if(this.gatewayProfessor.existsByIdUserEmailOrUsername(professor.getIdUser(), professor.getEmail(), professor.getUsername()) > 0){
+                this.formatterProfessor.returnResponseErrorEntityExists("There is an entity with that id User,email or username");
             }else{
-                objProfessor = this.gatewayProfessor.save(professor);
+                if(!professor.stateIsValid()){
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error,state is not valid");
+                }else if(!professor.isValidRole(this.gatewayProfessor.findAllRoles())){
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error, role is not valid");
+                }else if(!professor.isValidProfessorType(this.gatewayProfessor.findAllProfessorTypes())){
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error, professor type is not valid");
+                }else{
+                    objProfessor = this.gatewayProfessor.save(professor);
+                }
             }
         }
         return objProfessor;
@@ -47,37 +55,44 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
             this.formatterProfessor.returnResponseErrorEntityNotFound("Entity not found");
         }else{
             Professor obtainedProfessor = this.gatewayProfessor.findById(idProfessor);
-            if(existsCodeStudetEmailUsernameValid(obtainedProfessor,professor)){
+            if(existsIdUserEmailUsernameValid(obtainedProfessor,professor) > 0){
                 this.formatterProfessor.returnResponseErrorEntityExists("Entity with that code professor,email or usernam already exists");
             }else{
-                obtainedProfessor.setNames(professor.getNames());
-                obtainedProfessor.setLastNames(professor.getLastNames());
-                obtainedProfessor.setEmail(professor.getEmail());
-                obtainedProfessor.setUsername(professor.getUsername());
-                obtainedProfessor.setNumberPhone(professor.getNumberPhone());
-                obtainedProfessor.setCodeProfessor(professor.getCodeProfessor());
-                obtainedProfessor.setState(professor.getState());
-                obtainedProfessor.setRoles(professor.getRoles());
-                obtainedProfessor.setCodeProfessor(professor.getCodeProfessor());
-                obtainedProfessor.setObjProfessorType(professor.getObjProfessorType());
-                objStudent = this.gatewayProfessor.save(obtainedProfessor);
+                if(!professor.stateIsValid()){
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error,state is not valid");
+                }else if(!professor.isValidRole(this.gatewayProfessor.findAllRoles())){
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error, role is not valid");
+                }else if(!professor.isValidProfessorType(this.gatewayProfessor.findAllProfessorTypes())){
+                    this.formatterProfessor.returnResponseBusinessRuleViolated("Error, professor type is not valid");
+                }else{
+                    obtainedProfessor.setNames(professor.getNames());
+                    obtainedProfessor.setLastNames(professor.getLastNames());
+                    obtainedProfessor.setEmail(professor.getEmail());
+                    obtainedProfessor.setUsername(professor.getUsername());
+                    obtainedProfessor.setNumberPhone(professor.getNumberPhone());
+                    obtainedProfessor.setCodeProfessor(professor.getCodeProfessor());
+                    obtainedProfessor.setState(professor.getState());
+                    obtainedProfessor.setRoles(professor.getRoles());
+                    obtainedProfessor.setCodeProfessor(professor.getCodeProfessor());
+                    obtainedProfessor.setObjProfessorType(professor.getObjProfessorType());
+                    objStudent = this.gatewayProfessor.save(obtainedProfessor);
+                }
             }
         }
         return objStudent;
     }
 
-    private boolean existsCodeStudetEmailUsernameValid(Professor obtainedProfessor,
+    private long existsIdUserEmailUsernameValid(Professor obtainedProfessor,
                                                        Professor newProfessor){
 
-        long codeStudent = 0;
+        long idUser = 0;
         String email = "youWon'tFindThisEmail";
         String username = "youWon'tFindThisUserName";
 
-        if(obtainedProfessor.getCodeProfessor() != newProfessor.getCodeProfessor()) codeStudent = newProfessor.getCodeProfessor();
         if(obtainedProfessor.getEmail().equals(newProfessor.getEmail()) == false) email = newProfessor.getEmail();
         if(obtainedProfessor.getUsername().equals(newProfessor.getUsername()) == false) username = newProfessor.getUsername();
 
-        return this.gatewayProfessor.existsByCodeProfessorEmailOrUsernam(codeStudent, email, username) ;
+        return this.gatewayProfessor.existsByIdUserEmailOrUsername(idUser, email, username) ;
     }
 
     @Override

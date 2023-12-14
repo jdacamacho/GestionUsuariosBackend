@@ -23,4 +23,13 @@ public class Professor extends User{
         this.codeProfessor = codeProfessor;
         this.objProfessorType = objProfessorType;
     } 
+
+    public boolean isValidProfessorType(List<ProfessorType> professorTypes){
+        for (ProfessorType professorType : professorTypes) {
+            if(this.objProfessorType.equals(professorType)) return true;
+        }
+        return false;
+    }
+
+
 }

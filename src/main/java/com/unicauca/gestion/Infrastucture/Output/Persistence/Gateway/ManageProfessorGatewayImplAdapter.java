@@ -56,14 +56,6 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
     }
 
     @Override
-    public boolean existsByCodeProfessorEmailOrUsernam(long codeProfessor, String email, String username) {
-        Boolean flagResponse = false;
-        ProfessorEntity obtainedProfessor = this.serviceAccessBD.findByCodeProfessorOrEmailOrUsername(codeProfessor, email, username);
-        if(obtainedProfessor != null) flagResponse = true;
-        return flagResponse;
-    }
-
-    @Override
     public List<Role> findAllRoles() {
         List<RoleEntity> rolesObtained = this.serviceAccessBD.findAllRoles();
         List<Role> roleResponse = this.mapper.map(rolesObtained, new TypeToken<List<Role>>(){
@@ -77,5 +69,11 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
         List<ProfessorType> professorTypeResponse = this.mapper.map(professorTypeObtained, new TypeToken<List<ProfessorType>>(){
         }.getType());
         return professorTypeResponse;
+    }
+
+    @Override
+    public long existsByIdUserEmailOrUsername(long idUser, String email,
+            String username) {
+        return this.serviceAccessBD.countByIdUserOrEmailOrUsername(idUser, email, username);
     }
 }

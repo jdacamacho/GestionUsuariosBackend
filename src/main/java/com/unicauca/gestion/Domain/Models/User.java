@@ -2,7 +2,6 @@ package com.unicauca.gestion.Domain.Models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,10 @@ public class User {
     private String state;
     private List<Role> roles;
 
+    public User(){
+        this.roles = new ArrayList<>();
+    }
+
     public boolean stateIsValid(){
         if(!this.state.equals("Habilitado") && !this.state.equals("Inhabilitado")){
             return false;
@@ -26,8 +29,18 @@ public class User {
         return true;
     }
 
-    public User(){
-        this.roles = new ArrayList<>();
+    public boolean isValidRole(List<Role> validRoles){
+        List<Role> roles = this.getRoles();
+        int wasFound = 0;
+        for (Role role : roles) {
+            for (Role roleValid : validRoles) {
+                if(role.equals(roleValid)) wasFound ++;
+            }
+        }
+        if(roles.size() == wasFound) return true;
+        return false;
     }
+
+    
 }
 

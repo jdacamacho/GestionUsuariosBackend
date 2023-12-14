@@ -54,11 +54,8 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
     }
 
     @Override
-    public boolean existsByCodeStudentEmailOrUsername(long codeStudent, String email, String username) {
-        boolean flagResponse = false;
-        StudentEntity obtainedStudent = this.serviceAccessBD.findByCodeStudentOrEmailOrUsername(codeStudent, email, username);
-        if(obtainedStudent != null) flagResponse = true;
-        return flagResponse;
+    public long existsByIdUserEmailOrUsername(long idUser, String email, String username) {
+        return this.serviceAccessBD.countByIdUserOrEmailOrUsername(idUser, email, username);
     }
 
     @Override

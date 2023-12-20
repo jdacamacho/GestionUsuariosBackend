@@ -49,5 +49,13 @@ public class UserEntity {
     public UserEntity(){
         this.roles = new ArrayList<>();
     }
+
+    public UserEntity(long idUser,String names,String lastNames,String email){
+        this.idUser = idUser;
+        this.names = names;
+        this.lastNames = lastNames;
+        this.email = email;
+    }
+        
 }
 

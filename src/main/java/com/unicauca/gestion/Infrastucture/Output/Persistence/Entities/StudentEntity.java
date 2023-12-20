@@ -46,4 +46,9 @@ public class StudentEntity extends UserEntity {
         this.courses = new ArrayList<>();
     }
 
+    public StudentEntity(Long idUser,String names,String lastNames,String email,long codeStudent){
+        super(idUser,names,lastNames,email);
+        this.codeStudent = codeStudent;
+    }
+
 }

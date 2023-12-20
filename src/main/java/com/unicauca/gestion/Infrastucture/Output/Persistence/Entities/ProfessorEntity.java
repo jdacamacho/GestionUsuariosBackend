@@ -42,4 +42,9 @@ public class ProfessorEntity extends UserEntity{
         this.courses = new ArrayList<>();
     }
 
+    public ProfessorEntity(long idUser,String names,String lastNames,String email,Long codeProfessor){
+        super(idUser,names,lastNames,email);
+        this.codeProfessor = codeProfessor;
+    }
+
 }

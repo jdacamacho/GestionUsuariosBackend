@@ -1,6 +1,5 @@
 package com.unicauca.gestion.Domain.Models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -11,10 +10,9 @@ import lombok.Setter;
 public class Student extends User {
     private long codeStudent;
     private Address address;
-    private List<Course> courses;
 
     public Student(){
-        this.courses = new ArrayList<>();
+
     }
 
     public Student(long idUser,String names,String lastNames,String email,
@@ -23,6 +21,5 @@ public class Student extends User {
         super(idUser, names, lastNames, email, username, password,numberPhone,"Habilitado",roles);
         this.codeStudent = codeStudent;
         this.address = address;
-        this.courses = new ArrayList<>();
     }
 }

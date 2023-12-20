@@ -27,14 +27,8 @@ public class StudentEntity extends UserEntity {
     @OneToOne(mappedBy = "objStudent",fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     private AddressEntity address;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "courses_student",
-        joinColumns = @JoinColumn(name = "idStudent",referencedColumnName = "idUser"),
-        inverseJoinColumns = @JoinColumn(name = "codeCourse"))
-    private List<CourseEntity> courses;
-
     public StudentEntity(){
-        this.courses = new ArrayList<>();
+
     }
 
     public StudentEntity(long idUser,String names,String lastNames,String email,
@@ -43,7 +37,6 @@ public class StudentEntity extends UserEntity {
         super(idUser, names, lastNames, email, username, password,numberPhone,"Habilitado",roles);
         this.codeStudent = codeStudent;
         this.address = address;
-        this.courses = new ArrayList<>();
     }
 
     public StudentEntity(Long idUser,String names,String lastNames,String email,long codeStudent){

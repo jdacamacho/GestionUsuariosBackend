@@ -15,6 +15,4 @@ public interface ManageCourseGatewayIntPort {
     public long existsUser(long idUser);
     public Professor findProfessorById(long idProfessor);
     public Student findStudentById(long idStudent);
-    public Course setStudentToCourse(long idCourse,long idStudent);
-    public Course setProfessorToCourse(long idCourse,long idProfessor);
 }

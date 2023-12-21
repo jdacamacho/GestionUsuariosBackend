@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.unicauca.gestion.Apliccation.Input.ManageCourseCUIntPort;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
 import com.unicauca.gestion.Apliccation.Output.ManageCourseGatewayIntPort;
+import com.unicauca.gestion.Domain.Models.AcademicSemester;
 import com.unicauca.gestion.Domain.Models.Course;
 
 public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
@@ -36,9 +37,17 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
     }
 
     @Override
-    public Course updateCourse(long idCourse, Course Course) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateCourse'");
+    public Course updateCourse(long idCourse, Course course) {
+        Course objCourse = null;
+        if(!this.gatewayCourse.existsById(idCourse)){
+            this.formatterCourse.returnResponseErrorEntityNotFound("Error, course was not found");
+        }else{
+            objCourse = this.gatewayCourse.findById(idCourse);
+            objCourse.setName(course.getName());
+            objCourse.setObjAcademicSemester(course.getObjAcademicSemester());
+            this.gatewayCourse.save(objCourse);
+        }  
+        return objCourse;
     }
 
     @Override
@@ -63,6 +72,11 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
     public Course deleteStudentFromCourse(long idStudent, long idCourse) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteStudentFromCourse'");
+    }
+
+    @Override
+    public List<AcademicSemester> getAcademicSemester() {
+        return this.gatewayCourse.findAllAcademicSemester();
     }
 
     @Override

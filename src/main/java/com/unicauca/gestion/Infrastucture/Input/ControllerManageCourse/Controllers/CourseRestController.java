@@ -11,12 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unicauca.gestion.Apliccation.Input.ManageCourseCUIntPort;
@@ -48,36 +51,6 @@ public class CourseRestController {
         return objResponse;
     }
 
-    @PutMapping("/courses/{codeCourse}")
-    @Transactional(readOnly = false)
-    public ResponseEntity<?> update(@PathVariable long codeCourse,@Valid @RequestBody CourseDTORequest courseRequest, BindingResult result){
-        Course course = this.mapper.mapRequestToCourse(courseRequest);
-        Map<String,Object> response = new HashMap<>();
-        CourseDTOResponse objCourse;
-        
-        if(result.hasErrors()){
-			List<String> listaErrores= new ArrayList<>();
-
-			for (FieldError error : result.getFieldErrors()) {
-				listaErrores.add("El campo '" + error.getField() +"‘ "+ error.getDefaultMessage());
-			}
-
-			response.put("errors", listaErrores);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-		}
-
-        try {
-            objCourse = this.mapper.mapCourseToResponse(this.courseCU.updateCourse(codeCourse,course));
-        }catch(DataAccessException e) {
-            response.put("mensaje", "Error al realizar la actualziacion en la base de datos");
-			response.put("error", e.getMessage() + "" + e.getMostSpecificCause().getMessage());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
-
-    }
-
     @PostMapping("/courses")
     @Transactional(readOnly = false)
     public ResponseEntity<?> save (@Valid @RequestBody CourseDTORequest courseRequest, BindingResult result){
@@ -105,6 +78,68 @@ public class CourseRestController {
         }
 
         return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
+    }
 
+    @PutMapping("/courses/{codeCourse}")
+    @Transactional(readOnly = false)
+    public ResponseEntity<?> update(@PathVariable long codeCourse,@Valid @RequestBody CourseDTORequest courseRequest, BindingResult result){
+        Course course = this.mapper.mapRequestToCourse(courseRequest);
+        Map<String,Object> response = new HashMap<>();
+        CourseDTOResponse objCourse;
+        
+        if(result.hasErrors()){
+			List<String> listaErrores= new ArrayList<>();
+
+			for (FieldError error : result.getFieldErrors()) {
+				listaErrores.add("El campo '" + error.getField() +"‘ "+ error.getDefaultMessage());
+			}
+
+			response.put("errors", listaErrores);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+
+        try {
+            objCourse = this.mapper.mapCourseToResponse(this.courseCU.updateCourse(codeCourse,course));
+        }catch(DataAccessException e) {
+            response.put("mensaje", "Error al realizar la actualziacion en la base de datos");
+			response.put("error", e.getMessage() + "" + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
+    }
+
+    @PatchMapping("/courses/professors")
+    @Transactional(readOnly = false)
+    public ResponseEntity<?> setProfessorToCourse(@RequestParam("idProfessor") long idProfessor, @RequestParam("codeCourse") long codeCourse){
+        CourseDTOResponse objCourse;
+        Map<String,Object> response = new HashMap<>();
+        
+        try {
+            objCourse = this.mapper.mapCourseToResponse(this.courseCU.setProfessorToCourse(idProfessor, codeCourse));
+        }catch(DataAccessException e) {
+            response.put("mensaje", "Error al realizar la actualziacion en la base de datos");
+			response.put("error", e.getMessage() + "" + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/courses/professors")
+    @Transactional(readOnly = false)
+    public ResponseEntity<?> unsetProfessorToCourse(@RequestParam("idProfessor") long idProfessor, @RequestParam("codeCourse") long codeCourse){
+        CourseDTOResponse objCourse;
+        Map<String,Object> response = new HashMap<>();
+        
+        try {
+            objCourse = this.mapper.mapCourseToResponse(this.courseCU.unsetProfessorFromCourse(idProfessor, codeCourse));
+        }catch(DataAccessException e) {
+            response.put("mensaje", "Error al realizar la actualziacion en la base de datos");
+			response.put("error", e.getMessage() + "" + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
     }
 }

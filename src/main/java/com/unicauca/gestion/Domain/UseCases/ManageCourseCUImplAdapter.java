@@ -9,6 +9,7 @@ import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
 import com.unicauca.gestion.Apliccation.Output.ManageCourseGatewayIntPort;
 import com.unicauca.gestion.Domain.Models.AcademicSemester;
 import com.unicauca.gestion.Domain.Models.Course;
+import com.unicauca.gestion.Domain.Models.Professor;
 
 public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
     private final ManageCourseGatewayIntPort gatewayCourse;
@@ -52,14 +53,50 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
 
     @Override
     public Course setProfessorToCourse(long idProfessor, long idCourse) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setProfessorToCourse'");
+        Course objCourse = null;
+        if(!this.gatewayCourse.existsById(idCourse)){
+            this.formatterCourse.returnResponseErrorEntityNotFound("Error, course not fount");
+        }else{
+            if(this.gatewayCourse.existsUser(idProfessor) == 0){
+                this.formatterCourse.returnResponseErrorEntityNotFound("Error, user not found");
+            }else{
+                Professor professor = this.gatewayCourse.findProfessorById(idProfessor);
+                Course course = this.gatewayCourse.findById(idCourse);
+                System.out.println("Aqui" + professor.getNames());
+                if(course.getObjProfessor() != null){
+                    this.formatterCourse.returnResponseBusinessRuleViolated("Error, course only can have one professor");
+                }else{
+                    course.setObjProfessor(professor);
+                    objCourse = this.gatewayCourse.save(course);
+                }
+            }
+        }
+        return objCourse;
     }
 
     @Override
     public Course unsetProfessorFromCourse(long idProfessor, long idCourse) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unsetProfessorFromCourse'");
+        Course objCourse = null;
+        if(!this.gatewayCourse.existsById(idCourse)){
+            this.formatterCourse.returnResponseErrorEntityNotFound("Error, course not fount");
+        }else{
+            if(this.gatewayCourse.existsUser(idProfessor) == 0){
+                this.formatterCourse.returnResponseErrorEntityNotFound("Error, user not found");
+            }else{
+                Course course = this.gatewayCourse.findById(idCourse);
+                if(course.getObjProfessor() == null){
+                    this.formatterCourse.returnResponseBusinessRuleViolated("Error, course doesn't have a professor");
+                }else{
+                    if(course.getObjProfessor().getIdUser() != idProfessor){
+                        this.formatterCourse.returnResponseBusinessRuleViolated("Error, idprofessor doesn't match with profesor's course");
+                    }else{
+                        course.setObjProfessor(null);
+                        objCourse = this.gatewayCourse.save(course);
+                    }
+                }
+            }
+        }
+        return objCourse;
     }
 
     @Override

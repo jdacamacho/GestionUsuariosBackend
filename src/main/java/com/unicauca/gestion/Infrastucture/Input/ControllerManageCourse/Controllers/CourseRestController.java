@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unicauca.gestion.Apliccation.Input.ManageCourseCUIntPort;
+import com.unicauca.gestion.Domain.Models.AcademicSemester;
 import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.DTORequest.CourseDTORequest;
+import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.DTOResponse.AcademicSemesterDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.DTOResponse.CourseDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.mappers.CourseMapperInfrastructureDomain;
 
@@ -48,6 +50,15 @@ public class CourseRestController {
         List<Course> courses = this.courseCU.listCourses();
         ResponseEntity<List<CourseDTOResponse>> objResponse = new ResponseEntity<List<CourseDTOResponse>>(
             this.mapper.mapCoursesToResponse(courses),HttpStatus.OK);
+        return objResponse;
+    }
+
+    @GetMapping("/courses/academicSemesters")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<AcademicSemesterDTOResponse>> getAcademicSemesters(){
+        List<AcademicSemester> academicSemesters = this.courseCU.getAcademicSemester();
+        ResponseEntity<List<AcademicSemesterDTOResponse>> objResponse = new ResponseEntity<List<AcademicSemesterDTOResponse>>(
+            this.mapper.mapAcademicSemestersToResponse(academicSemesters),HttpStatus.OK);
         return objResponse;
     }
 

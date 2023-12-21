@@ -62,7 +62,6 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
             }else{
                 Professor professor = this.gatewayCourse.findProfessorById(idProfessor);
                 Course course = this.gatewayCourse.findById(idCourse);
-                System.out.println("Aqui" + professor.getNames());
                 if(course.getObjProfessor() != null){
                     this.formatterCourse.returnResponseBusinessRuleViolated("Error, course only can have one professor");
                 }else{

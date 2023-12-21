@@ -27,7 +27,11 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
         if(this.gatewayCourse.existsById(course.getCodeCourse())){
             this.formatterCourse.returnResponseErrorEntityExists("Error, course already exists in the system");
         }else{
-            objCourse = this.gatewayCourse.save(course);
+            if(!course.isValidAcademicSemester(this.gatewayCourse.findAllAcademicSemester())){
+                this.formatterCourse.returnResponseBusinessRuleViolated("Error, Academic semester is not valid");
+            }else{
+                objCourse = this.gatewayCourse.save(course);
+            }
         }   
         return objCourse;
     }
@@ -44,9 +48,13 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
             this.formatterCourse.returnResponseErrorEntityNotFound("Error, course was not found");
         }else{
             objCourse = this.gatewayCourse.findById(idCourse);
-            objCourse.setName(course.getName());
-            objCourse.setObjAcademicSemester(course.getObjAcademicSemester());
-            this.gatewayCourse.save(objCourse);
+            if(!course.isValidAcademicSemester(this.gatewayCourse.findAllAcademicSemester())){
+                this.formatterCourse.returnResponseBusinessRuleViolated("Error, Academic semester is not valid");
+            }else{
+                objCourse.setName(course.getName());
+                objCourse.setObjAcademicSemester(course.getObjAcademicSemester());
+                this.gatewayCourse.save(objCourse);
+            }
         }  
         return objCourse;
     }
@@ -62,7 +70,7 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
             }else{
                 Professor professor = this.gatewayCourse.findProfessorById(idProfessor);
                 Course course = this.gatewayCourse.findById(idCourse);
-                if(course.getObjProfessor() != null){
+                if(course.hasProfessor()){
                     this.formatterCourse.returnResponseBusinessRuleViolated("Error, course only can have one professor");
                 }else{
                     course.setObjProfessor(professor);
@@ -83,10 +91,10 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
                 this.formatterCourse.returnResponseErrorEntityNotFound("Error, user not found");
             }else{
                 Course course = this.gatewayCourse.findById(idCourse);
-                if(course.getObjProfessor() == null){
+                if(!course.hasProfessor()){
                     this.formatterCourse.returnResponseBusinessRuleViolated("Error, course doesn't have a professor");
                 }else{
-                    if(course.getObjProfessor().getIdUser() != idProfessor){
+                    if(!course.isTheProfessor(idProfessor)){
                         this.formatterCourse.returnResponseBusinessRuleViolated("Error, idprofessor doesn't match with profesor's course");
                     }else{
                         course.setObjProfessor(null);
@@ -99,7 +107,7 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
     }
 
     @Override
-    public Course addStudentToCouser(long idStudent, long idCourse) {
+    public Course addStudentToCourse(long idStudent, long idCourse) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addStudentToCouser'");
     }

@@ -12,7 +12,7 @@ public interface ManageCourseCUIntPort {
     public Course updateCourse(long idCourse, Course Course);
     public Course setProfessorToCourse(long idProfessor,long idCourse);
     public Course unsetProfessorFromCourse(long idProfessor,long idCourse);
-    public Course addStudentToCouser(long idStudent,long idCourse);
+    public Course addStudentToCourse(long idStudent,long idCourse);
     public Course deleteStudentFromCourse(long idStudent,long idCourse);
     public List<AcademicSemester> getAcademicSemester();
     public Course uploadFile(long idCourse, MultipartFile file);

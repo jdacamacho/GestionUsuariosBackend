@@ -19,4 +19,27 @@ public class Course {
         this.students = new ArrayList<>();
     }
 
+    public boolean isValidAcademicSemester(List<AcademicSemester> academicSemesters){
+        for (AcademicSemester academicSemester : academicSemesters) {
+            if(academicSemester.equals(this.objAcademicSemester)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasProfessor(){
+        if(this.objProfessor != null){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isTheProfessor(long idProfessor){
+        if(this.objProfessor.getIdUser() != idProfessor){
+            return false;
+        }
+        return true;
+    }
+
 }

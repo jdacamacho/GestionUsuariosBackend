@@ -19,5 +19,4 @@ public class Course {
         this.students = new ArrayList<>();
     }
 
-
 }

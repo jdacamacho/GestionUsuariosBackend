@@ -22,7 +22,7 @@ import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTORequest.ProfessorDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTOResponse.ProfessorDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTOResponse.ProfessorTypeDTOResponse;
-import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.Mapper.ProfessorMapperInfrastuctureDomain;
+import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.mappers.ProfessorMapperInfrastuctureDomain;
 import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.RoleDTOResponse;
 
 import jakarta.validation.Valid;

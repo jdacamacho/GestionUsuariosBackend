@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.unicauca.gestion.Apliccation.Output.ManageStudentGatewayIntPort;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
+import com.unicauca.gestion.Apliccation.Output.ManageCourseGatewayIntPort;
 import com.unicauca.gestion.Apliccation.Output.ManageProfesorGatewayIntPort;
+import com.unicauca.gestion.Domain.UseCases.ManageCourseCUImplAdapter;
 import com.unicauca.gestion.Domain.UseCases.ManageProfessorCUImplAdapter;
 import com.unicauca.gestion.Domain.UseCases.ManageStudentCUImplAdapter;
 
@@ -24,5 +26,12 @@ public class BeanConfigurations {
                                                             ExceptionFormatterIntPort formatterProfessor){
         ManageProfessorCUImplAdapter professorCU = new ManageProfessorCUImplAdapter(gatewayProfessor, formatterProfessor);
         return professorCU;
+    }
+
+    @Bean
+    public ManageCourseCUImplAdapter createCourseCU(ManageCourseGatewayIntPort gatewayCourse,
+                                                    ExceptionFormatterIntPort formatterCourse){
+        ManageCourseCUImplAdapter courseCU = new ManageCourseCUImplAdapter(gatewayCourse, formatterCourse);
+        return courseCU;
     }
 }

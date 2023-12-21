@@ -1,4 +1,4 @@
-package com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.Mapper;
+package com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.mappers;
 
 import org.mapstruct.Mapper;
 import java.util.List;
@@ -16,6 +16,5 @@ public interface ProfessorMapperInfrastuctureDomain {
     ProfessorDTOResponse mapProfessorToResponse(Professor professor);
     List<ProfessorDTOResponse> mapProfessorsToResponse(List<Professor> professors);
     List<RoleDTOResponse> mapRoleToResponse(List<Role> roles);
-    List<ProfessorTypeDTOResponse> mapProfessorTypeToResponse(List<ProfessorType> professorTypes);
-    
+    List<ProfessorTypeDTOResponse> mapProfessorTypeToResponse(List<ProfessorType> professorTypes); 
 }

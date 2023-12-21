@@ -10,6 +10,7 @@ import com.unicauca.gestion.Apliccation.Output.ManageCourseGatewayIntPort;
 import com.unicauca.gestion.Domain.Models.AcademicSemester;
 import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Professor;
+import com.unicauca.gestion.Domain.Models.Student;
 
 public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
     private final ManageCourseGatewayIntPort gatewayCourse;
@@ -108,14 +109,46 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
 
     @Override
     public Course addStudentToCourse(long idStudent, long idCourse) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addStudentToCouser'");
+        Course objCourse = null;
+        if(!this.gatewayCourse.existsById(idCourse)){
+            this.formatterCourse.returnResponseErrorEntityNotFound("Error, course was not found");
+        }else{
+            if(this.gatewayCourse.existsUser(idStudent) == 0){
+                this.formatterCourse.returnResponseErrorEntityNotFound("Error, student was not found");
+            }else{
+                Course course = this.gatewayCourse.findById(idCourse);
+                Student student = this.gatewayCourse.findStudentById(idStudent);
+                if(course.studentsIsAlreadyMatriculated(idStudent)){
+                    this.formatterCourse.returnResponseBusinessRuleViolated("Error, Student already has been matriculated in this course");
+                }else{
+                    course.addStudent(student);
+                    objCourse = this.gatewayCourse.save(course);
+                } 
+            }
+        }
+        return objCourse;
     }
 
     @Override
     public Course deleteStudentFromCourse(long idStudent, long idCourse) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteStudentFromCourse'");
+        Course objCourse = null;
+        if(!this.gatewayCourse.existsById(idCourse)){
+            this.formatterCourse.returnResponseErrorEntityNotFound("Error, course was not found");
+        }else{
+            if(this.gatewayCourse.existsUser(idStudent) == 0){
+                this.formatterCourse.returnResponseErrorEntityNotFound("Error, student was not found");
+            }else{
+                Course course = this.gatewayCourse.findById(idCourse);
+                Student student = this.gatewayCourse.findStudentById(idStudent);
+                if(!course.studentsIsAlreadyMatriculated(idStudent)){
+                    this.formatterCourse.returnResponseBusinessRuleViolated("Error, Student has not been matriculated in this course");
+                }else{
+                    course.deleteStudent(student);
+                    objCourse = this.gatewayCourse.save(course);
+                } 
+            }
+        }
+        return objCourse;
     }
 
     @Override

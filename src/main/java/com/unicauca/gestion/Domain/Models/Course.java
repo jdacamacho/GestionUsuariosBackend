@@ -19,6 +19,19 @@ public class Course {
         this.students = new ArrayList<>();
     }
 
+    public void addStudent(Student student){
+        this.students.add(student);
+    }
+
+    public void deleteStudent(Student studentToDelete){
+        for(int i = 0 ; i < this.students.size() ; i++){
+            if(this.students.get(i).getIdUser() == studentToDelete.getIdUser()){
+                this.students.remove(i);
+                break;
+            }
+        }
+    }
+
     public boolean isValidAcademicSemester(List<AcademicSemester> academicSemesters){
         for (AcademicSemester academicSemester : academicSemesters) {
             if(academicSemester.equals(this.objAcademicSemester)){
@@ -40,6 +53,15 @@ public class Course {
             return false;
         }
         return true;
+    }
+
+    public boolean studentsIsAlreadyMatriculated(long idStudent){
+        for (Student studentMatriculated : this.students) {
+            if(studentMatriculated.getIdUser() == idStudent){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

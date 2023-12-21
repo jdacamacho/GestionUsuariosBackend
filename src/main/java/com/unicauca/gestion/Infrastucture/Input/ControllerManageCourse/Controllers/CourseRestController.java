@@ -153,4 +153,22 @@ public class CourseRestController {
 
         return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
     }
+
+    @PatchMapping("/courses/students")
+    @Transactional(readOnly = false)
+    public ResponseEntity<?> matriculateStundent(@RequestParam("idStudent") long idStudent,@RequestParam("idCourse") long idCourse){
+        CourseDTOResponse objCourse;
+        Map<String,Object> response = new HashMap<>();
+        
+        try {
+            objCourse = this.mapper.mapCourseToResponse(this.courseCU.addStudentToCourse(idStudent, idCourse));
+        }catch(DataAccessException e) {
+            response.put("mensaje", "Error al realizar la actualziacion en la base de datos");
+			response.put("error", e.getMessage() + "" + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
+    }
+
 }

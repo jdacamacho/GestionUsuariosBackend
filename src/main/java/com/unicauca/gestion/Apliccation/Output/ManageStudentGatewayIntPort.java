@@ -2,7 +2,11 @@ package com.unicauca.gestion.Apliccation.Output;
 
 import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Domain.Models.Student;
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.UserEntity;
+
 import java.util.List;
+import java.util.Optional;
+
 
 public interface ManageStudentGatewayIntPort {
     public List<Student> findAll();

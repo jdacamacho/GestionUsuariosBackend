@@ -41,15 +41,6 @@ public class StudentRestController {
     private final ManageStudentCUIntPort studentCU;
     private final StudentMapperInfrastuctureDomain mapper;
 
-    @PostMapping("/students/auth")
-    @Transactional(readOnly = true)
-    public ResponseEntity<?> login(@RequestParam("username") String username,@RequestParam("password") String password){
-        Student student = this.studentCU.login(username, password);
-        ResponseEntity<StudentDTOResponse> objResponse = new ResponseEntity<StudentDTOResponse>(
-            mapper.mapStudentToResponse(student),HttpStatus.OK);
-        return objResponse;
-    }
-
     @GetMapping("/students")
     @Transactional(readOnly = true)
     public ResponseEntity<List<StudentDTOResponse>> list(){

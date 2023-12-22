@@ -114,4 +114,15 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
     public List<ProfessorType> getProfessorTypes() {
        return this.gatewayProfessor.findAllProfessorTypes();
     }
+
+    @Override
+    public Professor login(String username, String password) {
+        Professor objProfessor = null;
+        if(!this.gatewayProfessor.existsByLogin(username, password)){
+            this.formatterProfessor.returnResponseBadCredentionales("Error, checkout your username or password");
+        }else{
+            objProfessor = this.gatewayProfessor.login(username, password);
+        }   
+        return objProfessor;
+    }
 }

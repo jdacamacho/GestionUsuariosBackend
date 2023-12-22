@@ -73,5 +73,20 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
         if(student != null) flagResponse = true;
         return flagResponse;
     }
-    
+
+    @Override
+    public Student login(String username, String password) {
+        StudentEntity studentObtained = this.serviceAccessBD.findByUsernameAndPassword(username, password);
+        Student studentResponse = this.mapper.map(studentObtained, Student.class);
+        return studentResponse;
+    }
+
+    @Override
+    public boolean existsByLogin(String username, String password) {
+        boolean flagResponse = false;
+        StudentEntity studentObtained = this.serviceAccessBD.findByUsernameAndPassword(username, password);
+        if(studentObtained != null) flagResponse = true;
+        return flagResponse;
+    }
+
 }

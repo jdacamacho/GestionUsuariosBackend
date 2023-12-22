@@ -9,7 +9,6 @@ import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorE
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorTypeEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.RoleEntity;
 
-
 public interface ProfessorRepository extends CrudRepository<ProfessorEntity,Long>{
 
     @Query("from RoleEntity r WHERE r.name <> 'Estudiante'")
@@ -20,6 +19,8 @@ public interface ProfessorRepository extends CrudRepository<ProfessorEntity,Long
 
     @Query("SELECT COUNT(u) FROM UserEntity u WHERE u.idUser = :idUser OR u.email = :email OR u.username = :username")
     long countByIdUserOrEmailOrUsername(@Param("idUser") long idUser, @Param("email") String email, @Param("username") String username);
+
+    ProfessorEntity findByUsernameAndPassword(String username,String password);
 
     ProfessorEntity findByCodeProfessor(long codeProfessor);
 }

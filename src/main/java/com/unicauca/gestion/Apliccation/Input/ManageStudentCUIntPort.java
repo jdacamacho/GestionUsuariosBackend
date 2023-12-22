@@ -10,4 +10,5 @@ public interface ManageStudentCUIntPort {
     public Student updateStudent(long idStudent , Student student);
     public Student getStudent(long idStudent);
     public List<Role> getRoles();
+    public Student login(String username, String password);
 }

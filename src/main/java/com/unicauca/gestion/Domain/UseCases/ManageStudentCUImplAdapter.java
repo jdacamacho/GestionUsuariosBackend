@@ -107,5 +107,16 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
     public List<Role> getRoles() {
         return this.gatewayStudent.findAllRoles();
     }
+
+    @Override
+    public Student login(String username, String password) {
+        Student objStudent = null;
+        if(!this.gatewayStudent.existsByLogin(username, password)){
+            this.formatterStudent.returnResponseBadCredentionales("Error, check out your username o password");
+        }else{
+            objStudent = this.gatewayStudent.login(username, password);
+        }
+        return objStudent;
+    }
     
 }

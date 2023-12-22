@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.ErrorCode;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.ErrorUtils;
+import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BadCredentionalsException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BussinesRuleException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityExistsException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityNotFoundException;
@@ -55,6 +56,19 @@ public class RestApiExceptionHandler {
                         .createError(ErrorCode.ENTITY_NOT_FOUND.getCode(),
                                         String.format("%s, %s",
                                         ErrorCode.ENTITY_NOT_FOUND.getMessageKey(),
+                                        ex.getMessage()),
+                                        HttpStatus.NOT_FOUND.value())
+                                        .setUrl(req.getRequestURL().toString()).setMethod(req.getMethod());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadCredentionalsException.class)
+    public ResponseEntity<Error> handleGenericException(final HttpServletRequest req,
+                    final BadCredentionalsException ex, final Locale locale) {
+        final Error error = ErrorUtils
+                        .createError(ErrorCode.BAD_CREDENTIALS.getCode(),
+                                        String.format("%s, %s",
+                                        ErrorCode.BAD_CREDENTIALS.getMessageKey(),
                                         ex.getMessage()),
                                         HttpStatus.NOT_FOUND.value())
                                         .setUrl(req.getRequestURL().toString()).setMethod(req.getMethod());

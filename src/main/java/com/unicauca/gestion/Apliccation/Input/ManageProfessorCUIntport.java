@@ -12,4 +12,5 @@ public interface ManageProfessorCUIntport {
     public Professor getProfessor(long idProfessor);
     public List<Role> getRoles();
     public List<ProfessorType> getProfessorTypes();
+    public Professor login(String username,String password);
 }

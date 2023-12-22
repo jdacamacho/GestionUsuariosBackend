@@ -41,6 +41,15 @@ public class ProfessorRestController {
     private final ManageProfessorCUIntport professorCU;
     private final ProfessorMapperInfrastuctureDomain mapper;
 
+    @PostMapping("/professors/auth")
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> login(String username,String password){
+        Professor professor = this.professorCU.login(username, password);
+        ResponseEntity<ProfessorDTOResponse> objResponse = new ResponseEntity<ProfessorDTOResponse>(
+            this.mapper.mapProfessorToResponse(professor),HttpStatus.OK);
+        return objResponse;
+    }
+
     @GetMapping("/professors")
     @Transactional(readOnly = true)
     public ResponseEntity<List<ProfessorDTOResponse>> list(){

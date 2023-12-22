@@ -84,4 +84,19 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
         if(professor !=  null) flagResponse = true;
         return flagResponse;
     }
+
+    @Override
+    public Professor login(String username, String password) {
+        ProfessorEntity professorObtained = this.serviceAccessBD.findByUsernameAndPassword(username, password);
+        Professor professorResponse = this.mapper.map(professorObtained, Professor.class);
+        return professorResponse;
+    }
+
+    @Override
+    public boolean existsByLogin(String username, String password) {
+        boolean flagResponse = false;
+        ProfessorEntity professorObtained = this.serviceAccessBD.findByUsernameAndPassword(username, password);
+        if(professorObtained != null) flagResponse = true;
+        return flagResponse;
+    }
 }

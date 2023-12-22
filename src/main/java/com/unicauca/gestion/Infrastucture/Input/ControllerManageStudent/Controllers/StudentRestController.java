@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unicauca.gestion.Apliccation.Input.ManageStudentCUIntPort;
@@ -42,7 +43,7 @@ public class StudentRestController {
 
     @PostMapping("/students/auth")
     @Transactional(readOnly = true)
-    public ResponseEntity<?> login(String username,String password){
+    public ResponseEntity<?> login(@RequestParam("username") String username,@RequestParam("password") String password){
         Student student = this.studentCU.login(username, password);
         ResponseEntity<StudentDTOResponse> objResponse = new ResponseEntity<StudentDTOResponse>(
             mapper.mapStudentToResponse(student),HttpStatus.OK);

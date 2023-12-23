@@ -6,6 +6,4 @@ import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.UserEntity
 
 public interface ManageAuthGatewayIntPort {
     Optional<UserEntity> findByUserEmail(String username);
-    boolean isStudent(String username);
-    boolean isProfessorOrAdministrador(String username);
 }

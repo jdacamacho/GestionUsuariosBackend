@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unicauca.gestion.Apliccation.Input.ManageProfessorCUIntport;
@@ -42,14 +41,6 @@ import java.util.Map;
 public class ProfessorRestController {
     private final ManageProfessorCUIntport professorCU;
     private final ProfessorMapperInfrastuctureDomain mapper;
-
-    @PostMapping("/professors/auth")
-    @Transactional(readOnly = true)
-    public ResponseEntity<?> login(@RequestParam("username") String username,@RequestParam("password") String password){
-        ResponseEntity<String> objResponse = new ResponseEntity<String>(
-            this.professorCU.login(username, password),HttpStatus.OK);
-        return objResponse;
-    }
 
     @GetMapping("/professors")
     @Transactional(readOnly = true)

@@ -32,7 +32,7 @@ public class SecurityConfigurations {
               authRequest
                 .requestMatchers("/apiAuth/auth").permitAll()
                 .requestMatchers("/apiProfessor/professors").hasRole("Administrador")
-                .anyRequest().authenticated()
+                .requestMatchers("/apiStudent/students").hasRole("Administrador")
                 )
             .sessionManagement(sessionManager->
                 sessionManager 

@@ -23,20 +23,20 @@ public class BeanConfigurations {
     @Bean
     public ManageStudentCUImplAdapter createStudentCU(ManageStudentGatewayIntPort gatewayStudent,
                                                         ExceptionFormatterIntPort formatterStudent,
-                                                        JwtService jwtService,PasswordEncoder passwordEncoder,
-                                                        AuthenticationManager authenticationManager){
-        ManageStudentCUImplAdapter studentCU = new ManageStudentCUImplAdapter(gatewayStudent,formatterStudent,
-                                                                            jwtService,passwordEncoder,authenticationManager);
+                                                        PasswordEncoder passwordEncoder){
+        ManageStudentCUImplAdapter studentCU = new ManageStudentCUImplAdapter(gatewayStudent,
+                                                                            formatterStudent,
+                                                                            passwordEncoder);
         return studentCU;
     }
 
     @Bean
     public ManageProfessorCUImplAdapter createProfessorCU(ManageProfesorGatewayIntPort gatewayProfessor,
                                                             ExceptionFormatterIntPort formatterProfessor,
-                                                            JwtService jwtService,PasswordEncoder passwordEncoder,
-                                                            AuthenticationManager authenticationManager){
-        ManageProfessorCUImplAdapter professorCU = new ManageProfessorCUImplAdapter(gatewayProfessor, formatterProfessor,
-                                                                                jwtService,passwordEncoder,authenticationManager);
+                                                            PasswordEncoder passwordEncoder){
+        ManageProfessorCUImplAdapter professorCU = new ManageProfessorCUImplAdapter(gatewayProfessor,
+                                                                                formatterProfessor,
+                                                                                passwordEncoder);
         return professorCU;
     }
 

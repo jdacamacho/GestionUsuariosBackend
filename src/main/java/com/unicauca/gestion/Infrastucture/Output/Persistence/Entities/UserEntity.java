@@ -67,6 +67,7 @@ public class UserEntity implements UserDetails{
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (RoleEntity role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
+            System.out.println(role.getName());
         }
         return authorities;
     }

@@ -3,6 +3,7 @@ package com.unicauca.gestion.Domain.UseCases;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import org.springframework.core.io.Resource;
@@ -222,7 +223,8 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
             }else{
                 try {
                     String route = course.getRouteFileDrive();
-                    objResource = new UrlResource(route);
+                    Path path = Paths.get(route);
+                    objResource = new UrlResource(path.toUri());
                 }catch (Exception e) {
                     System.out.println("Error");
                 }

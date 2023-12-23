@@ -34,7 +34,7 @@ public class SecurityConfigurations {
                 .requestMatchers("/apiProfessor/professors/**").hasRole("Administrador")
                 .requestMatchers("/apiStudent/students/**").hasRole("Administrador")
                 .requestMatchers("/apiCourse/courses/**").hasRole("Administrador")
-                .requestMatchers("/apiCourse/file/**").permitAll()
+                .requestMatchers("/apiCourse/file/**").hasRole("Docente")
                 )
             .sessionManagement(sessionManager->
                 sessionManager 

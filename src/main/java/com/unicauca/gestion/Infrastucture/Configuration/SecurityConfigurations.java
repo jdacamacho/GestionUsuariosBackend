@@ -30,8 +30,7 @@ public class SecurityConfigurations {
                 .disable())
             .authorizeHttpRequests(authRequest ->
               authRequest
-                .requestMatchers("/apiStudent/students/auth").permitAll()
-                .requestMatchers("/apiProfessor/professors/auth").permitAll()
+                .requestMatchers("/apiAuth/auth").permitAll()
                 .requestMatchers("/apiProfessor/professors").hasRole("Administrador")
                 .anyRequest().authenticated()
                 )

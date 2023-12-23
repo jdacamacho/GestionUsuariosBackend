@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -209,4 +212,15 @@ public class CourseRestController {
         return objResponse;
     }
 
+    @GetMapping("/file/download/{idCourse}")
+    @Transactional(readOnly = true)
+    public ResponseEntity<Resource> downloadFile(@PathVariable long idCourse){
+        Resource resource = this.courseCU.downloadFile(idCourse);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFilename());
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resource);
+    }
 }

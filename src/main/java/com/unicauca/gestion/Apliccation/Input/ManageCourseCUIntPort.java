@@ -4,6 +4,7 @@ import com.unicauca.gestion.Domain.Models.AcademicSemester;
 import com.unicauca.gestion.Domain.Models.Course;
 import java.util.List;
 
+import org.springframework.core.io.Resource;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,4 +18,5 @@ public interface ManageCourseCUIntPort {
     public Course deleteStudentFromCourse(long idStudent,long idCourse);
     public List<AcademicSemester> getAcademicSemester();
     public Course uploadFile(long idCourse, MultipartFile file) throws FileUploadException;
+    public Resource downloadFile(long idCourse);
 }

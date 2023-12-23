@@ -5,8 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import org.springframework.core.io.Resource;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.unicauca.gestion.Apliccation.Input.ManageCourseCUIntPort;
@@ -183,7 +185,7 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
                     if(extensionFile.equals("docx") == false){
                         this.formatterCourse.retunrResponseBadFormat("Error, format file don't support");
                     }else{
-                        String fileName = "Contenido_" + "_" + course.getName() + "." + extensionFile;
+                        String fileName = "Contenido_" + course.getName() + "." + extensionFile;
                         Path filePath = uploadPath.resolve(fileName);
                         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -208,5 +210,24 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
         }
     }
 
-    
+    @Override
+    public Resource downloadFile(long idCourse) {
+        Resource objResource = null;
+        if(!this.gatewayCourse.existsById(idCourse)){
+            this.formatterCourse.returnResponseErrorEntityNotFound("Error, course was not found");
+        }else{
+            Course course = this.gatewayCourse.findById(idCourse);
+            if(course.getRouteFileDrive() == null){
+                this.formatterCourse.returnResponseErrorEntityNotFound("Error, resource not found");
+            }else{
+                try {
+                    String route = course.getRouteFileDrive();
+                    objResource = new UrlResource(route);
+                }catch (Exception e) {
+                    System.out.println("Error");
+                }
+            }
+        }
+        return objResource;
+    }
 }

@@ -3,7 +3,9 @@ package com.unicauca.gestion.Domain.UseCases;
 import java.util.List;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -13,6 +15,7 @@ import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
 import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Domain.Models.Student;
 import com.unicauca.gestion.Infrastucture.JWT.JwtService;
+import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BadCredentionalsException;
 
 public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
 
@@ -127,9 +130,15 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
     @Override
     public String login(String username, String password) {
         String token = "";
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
-        UserDetails user = this.gatewayStudent.userToToken(username).orElseThrow() ;
-        token = this.jwtService.getToken(user);
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            if (authentication.isAuthenticated()) {
+                UserDetails user = this.gatewayStudent.userToToken(username).orElseThrow();
+                token = this.jwtService.getToken(user);
+            }
+        } catch (BadCredentialsException ex) {
+            throw new BadCredentionalsException("Error, checkout credentionals");
+        }
         return token;
     }
     

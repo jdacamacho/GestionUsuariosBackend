@@ -2,22 +2,39 @@ package com.unicauca.gestion.Domain.UseCases;
 
 import java.util.List;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.unicauca.gestion.Apliccation.Input.ManageProfessorCUIntport;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
 import com.unicauca.gestion.Apliccation.Output.ManageProfesorGatewayIntPort;
 import com.unicauca.gestion.Domain.Models.Professor;
 import com.unicauca.gestion.Domain.Models.ProfessorType;
 import com.unicauca.gestion.Domain.Models.Role;
+import com.unicauca.gestion.Infrastucture.JWT.JwtService;
+import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BadCredentionalsException;
 
 public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
 
     private final ManageProfesorGatewayIntPort gatewayProfessor;
     private final ExceptionFormatterIntPort formatterProfessor;
+    private final JwtService jwtService;
+    private final PasswordEncoder passworEncoder;
+    private final AuthenticationManager authenticationManager;
 
     public ManageProfessorCUImplAdapter(ManageProfesorGatewayIntPort gatewayProfessor,
-                                        ExceptionFormatterIntPort formatterProfessor){
+                                        ExceptionFormatterIntPort formatterProfessor,
+                                        JwtService jwtService,PasswordEncoder passwordEncoder,
+                                        AuthenticationManager authenticationManager){
         this.gatewayProfessor = gatewayProfessor;
         this.formatterProfessor = formatterProfessor;
+        this.jwtService = jwtService;
+        this.passworEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
     }
 
     @Override
@@ -36,6 +53,8 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
                 } else if (!professor.isValidProfessorType(this.gatewayProfessor.findAllProfessorTypes())) {
                     this.formatterProfessor.returnResponseBusinessRuleViolated("Error, professor type is not valid");
                 } else {
+                    String passworEncode = this.passworEncoder.encode(professor.getPassword());
+                    professor.setPassword(passworEncode);
                     objProfessor = this.gatewayProfessor.save(professor);
                 }
             } 
@@ -116,13 +135,17 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
     }
 
     @Override
-    public Professor login(String username, String password) {
-        Professor objProfessor = null;
-        if(!this.gatewayProfessor.existsByLogin(username, password)){
-            this.formatterProfessor.returnResponseBadCredentionales("Error, checkout your username or password");
-        }else{
-            objProfessor = this.gatewayProfessor.login(username, password);
-        }   
-        return objProfessor;
+    public String login(String username, String password) {
+        String token = "";
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            if (authentication.isAuthenticated()) {
+                UserDetails user = this.gatewayProfessor.userToToken(username).orElseThrow();
+                token = this.jwtService.getToken(user);
+            }
+        } catch (BadCredentialsException ex) {
+            throw new BadCredentionalsException("Error, checkout credentionals");
+        }
+        return token;
     }
 }

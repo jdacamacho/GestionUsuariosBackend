@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -46,6 +47,7 @@ public class CourseRestController {
 
     @GetMapping("/courses")
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<CourseDTOResponse>> list(){
         List<Course> courses = this.courseCU.listCourses();
         ResponseEntity<List<CourseDTOResponse>> objResponse = new ResponseEntity<List<CourseDTOResponse>>(
@@ -55,6 +57,7 @@ public class CourseRestController {
 
     @GetMapping("/courses/academicSemesters")
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<AcademicSemesterDTOResponse>> getAcademicSemesters(){
         List<AcademicSemester> academicSemesters = this.courseCU.getAcademicSemester();
         ResponseEntity<List<AcademicSemesterDTOResponse>> objResponse = new ResponseEntity<List<AcademicSemesterDTOResponse>>(
@@ -64,6 +67,7 @@ public class CourseRestController {
 
     @PostMapping("/courses")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> save (@Valid @RequestBody CourseDTORequest courseRequest, BindingResult result){
         Course course = this.mapper.mapRequestToCourse(courseRequest);
         Map<String,Object> response = new HashMap<>();
@@ -93,6 +97,7 @@ public class CourseRestController {
 
     @PutMapping("/courses/{codeCourse}")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> update(@PathVariable long codeCourse,@Valid @RequestBody CourseDTORequest courseRequest, BindingResult result){
         Course course = this.mapper.mapRequestToCourse(courseRequest);
         Map<String,Object> response = new HashMap<>();
@@ -122,6 +127,7 @@ public class CourseRestController {
 
     @PatchMapping("/courses/professors")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> setProfessorToCourse(@RequestParam("idProfessor") long idProfessor, @RequestParam("codeCourse") long codeCourse){
         CourseDTOResponse objCourse;
         Map<String,Object> response = new HashMap<>();
@@ -139,6 +145,7 @@ public class CourseRestController {
 
     @DeleteMapping("/courses/professors")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> unsetProfessorToCourse(@RequestParam("idProfessor") long idProfessor, @RequestParam("codeCourse") long codeCourse){
         CourseDTOResponse objCourse;
         Map<String,Object> response = new HashMap<>();
@@ -156,6 +163,7 @@ public class CourseRestController {
 
     @PatchMapping("/courses/students")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> matriculateStundent(@RequestParam("idStudent") long idStudent,@RequestParam("idCourse") long idCourse){
         CourseDTOResponse objCourse;
         Map<String,Object> response = new HashMap<>();
@@ -173,6 +181,7 @@ public class CourseRestController {
 
     @DeleteMapping("/courses/students")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> cancelMatriculateStundent(@RequestParam("idStudent") long idStudent,@RequestParam("idCourse") long idCourse){
         CourseDTOResponse objCourse;
         Map<String,Object> response = new HashMap<>();

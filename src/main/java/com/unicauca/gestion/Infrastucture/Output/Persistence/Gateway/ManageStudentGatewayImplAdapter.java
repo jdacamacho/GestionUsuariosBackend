@@ -88,7 +88,6 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
         boolean flagResponse = false;
         StudentEntity studentObtained = this.serviceAccessBD.findByUsernameAndPassword(username, password);
         if(studentObtained != null) flagResponse = true;
-        System.out.println("Bnaderaaaa" + flagResponse);
         return flagResponse;
     }
 

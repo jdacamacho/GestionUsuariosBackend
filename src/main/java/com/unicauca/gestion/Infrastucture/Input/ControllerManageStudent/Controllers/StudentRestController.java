@@ -3,6 +3,7 @@ package com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.Control
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -49,7 +50,7 @@ public class StudentRestController {
     }
 
     @GetMapping("/students")
-    //@PreAuthorize("hasRole('Administrador')")
+    @PreAuthorize("hasRole('Administrador')")
     @Transactional(readOnly = true)
     public ResponseEntity<List<StudentDTOResponse>> list(){
         List<Student> students = this.studentCU.listStudents();
@@ -59,6 +60,7 @@ public class StudentRestController {
     }
 
     @GetMapping("/students/roles")
+    @PreAuthorize("hasRole('Administrador')")
     @Transactional(readOnly = true)
     public ResponseEntity<List<RoleDTOResponse>> getRoles(){
         List<Role> roles = this.studentCU.getRoles();
@@ -69,6 +71,7 @@ public class StudentRestController {
 
     @GetMapping("/students/{idStudent}")
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> getStudent(@PathVariable long idStudent){
         Student student = this.studentCU.getStudent(idStudent);
         ResponseEntity<StudentDTOResponse> objResponse = new ResponseEntity<StudentDTOResponse>(
@@ -78,6 +81,7 @@ public class StudentRestController {
 
     @PostMapping("/students")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> create(@Valid @RequestBody StudentDTORequest studentRequest, BindingResult result){
         Student student = this.mapper.mapRequestToStudent(studentRequest);
         student.getAddress().setObjStudent(student);
@@ -108,6 +112,7 @@ public class StudentRestController {
 
     @PutMapping("/students/{idStudent}")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> update (@PathVariable long idStudent,@Valid @RequestBody StudentDTORequest studentRequest,BindingResult result){
         Student student = this.mapper.mapRequestToStudent(studentRequest);
         student.getAddress().setObjStudent(student);

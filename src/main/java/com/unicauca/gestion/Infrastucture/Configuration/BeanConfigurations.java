@@ -30,8 +30,11 @@ public class BeanConfigurations {
 
     @Bean
     public ManageProfessorCUImplAdapter createProfessorCU(ManageProfesorGatewayIntPort gatewayProfessor,
-                                                            ExceptionFormatterIntPort formatterProfessor){
-        ManageProfessorCUImplAdapter professorCU = new ManageProfessorCUImplAdapter(gatewayProfessor, formatterProfessor);
+                                                            ExceptionFormatterIntPort formatterProfessor,
+                                                            JwtService jwtService,PasswordEncoder passwordEncoder,
+                                                            AuthenticationManager authenticationManager){
+        ManageProfessorCUImplAdapter professorCU = new ManageProfessorCUImplAdapter(gatewayProfessor, formatterProfessor,
+                                                                                jwtService,passwordEncoder,authenticationManager);
         return professorCU;
     }
 

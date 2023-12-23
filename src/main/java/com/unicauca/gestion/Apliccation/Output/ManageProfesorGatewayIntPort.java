@@ -1,9 +1,12 @@
 package com.unicauca.gestion.Apliccation.Output;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.unicauca.gestion.Domain.Models.Professor;
 import com.unicauca.gestion.Domain.Models.ProfessorType;
-import com.unicauca.gestion.Domain.Models.Role;;
+import com.unicauca.gestion.Domain.Models.Role;
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.UserEntity;;
 
 public interface ManageProfesorGatewayIntPort {
     public List<Professor> findAll();
@@ -16,4 +19,5 @@ public interface ManageProfesorGatewayIntPort {
     public boolean existByCodeProfessor(long codeProfessor);
     Professor login(String username,String password);
     boolean existsByLogin(String username,String password);
+    public Optional<UserEntity> userToToken(String username);
 }

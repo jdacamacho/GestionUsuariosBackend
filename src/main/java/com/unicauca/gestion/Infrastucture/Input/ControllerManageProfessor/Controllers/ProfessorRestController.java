@@ -3,6 +3,7 @@ package com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.Contr
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -45,14 +46,14 @@ public class ProfessorRestController {
     @PostMapping("/professors/auth")
     @Transactional(readOnly = true)
     public ResponseEntity<?> login(@RequestParam("username") String username,@RequestParam("password") String password){
-        Professor professor = this.professorCU.login(username, password);
-        ResponseEntity<ProfessorDTOResponse> objResponse = new ResponseEntity<ProfessorDTOResponse>(
-            this.mapper.mapProfessorToResponse(professor),HttpStatus.OK);
+        ResponseEntity<String> objResponse = new ResponseEntity<String>(
+            this.professorCU.login(username, password),HttpStatus.OK);
         return objResponse;
     }
 
     @GetMapping("/professors")
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<ProfessorDTOResponse>> list(){
         List<Professor> professors = this.professorCU.listProfessors();
         ResponseEntity<List<ProfessorDTOResponse>> objResponse = new ResponseEntity<List<ProfessorDTOResponse>>(
@@ -62,6 +63,7 @@ public class ProfessorRestController {
 
     @GetMapping("/professors/{idProfessor}")
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> getProfessor(@PathVariable long idProfessor){
         Professor professor = this.professorCU.getProfessor(idProfessor);
         ResponseEntity<ProfessorDTOResponse> objResponse = new ResponseEntity<ProfessorDTOResponse>(
@@ -71,6 +73,7 @@ public class ProfessorRestController {
 
     @GetMapping("/professors/roles")
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<RoleDTOResponse>> getRoles(){
         List<Role> roles = this.professorCU.getRoles();
         ResponseEntity<List<RoleDTOResponse>> objResponse = new ResponseEntity<List<RoleDTOResponse>>(
@@ -79,6 +82,7 @@ public class ProfessorRestController {
     }
 
     @GetMapping("/professors/professorsType")
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<ProfessorTypeDTOResponse>> getProfessorType(){
         List<ProfessorType> professorTypes = this.professorCU.getProfessorTypes();
         ResponseEntity<List<ProfessorTypeDTOResponse>> objResponse = new ResponseEntity<List<ProfessorTypeDTOResponse>>(
@@ -88,6 +92,7 @@ public class ProfessorRestController {
 
     @PostMapping("/professors")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> save (@Valid @RequestBody ProfessorDTORequest professorRequest, BindingResult result){
         Professor professor = this.mapper.mapRequestToProfessor(professorRequest);
         Map<String,Object> response = new HashMap<>();
@@ -117,6 +122,7 @@ public class ProfessorRestController {
 
     @PutMapping("/professors/{idProfessor}")
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> update (@PathVariable long idProfessor,@Valid @RequestBody ProfessorDTORequest professorRequest,BindingResult result){
         Professor professor = this.mapper.mapRequestToProfessor(professorRequest);
         Map<String,Object> response = new HashMap<>();

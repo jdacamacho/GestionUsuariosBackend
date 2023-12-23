@@ -45,7 +45,7 @@ public class UserEntity implements UserDetails{
 
     private String state;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_user",
         joinColumns = @JoinColumn(name = "idUser"),
         inverseJoinColumns = @JoinColumn(name = "idRole"))

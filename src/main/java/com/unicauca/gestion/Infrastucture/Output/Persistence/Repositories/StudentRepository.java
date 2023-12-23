@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 public interface StudentRepository extends CrudRepository<StudentEntity,Long>{
 
-    @Query("from RoleEntity r WHERE r.name <> 'Administrador' AND r.name <> 'Docente'")
+    @Query("from RoleEntity r WHERE r.name <> 'ROLE_Administrador' AND r.name <> 'ROLE_Docente'")
     List<RoleEntity> findAllRoles();
 
     @Query("SELECT COUNT(u) FROM UserEntity u WHERE u.idUser = :idUser OR u.email = :email OR u.username = :username")

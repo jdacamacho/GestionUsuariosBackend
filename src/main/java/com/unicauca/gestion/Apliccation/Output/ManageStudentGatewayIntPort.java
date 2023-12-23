@@ -18,4 +18,5 @@ public interface ManageStudentGatewayIntPort {
     public boolean existByCodeStudent(long codeStudent);
     public Student login(String username,String password);
     public boolean existsByLogin(String username,String password);
+    public Optional<UserEntity> userToToken(String username);
 }

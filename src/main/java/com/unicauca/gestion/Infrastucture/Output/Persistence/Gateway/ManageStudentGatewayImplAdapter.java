@@ -1,6 +1,7 @@
 package com.unicauca.gestion.Infrastucture.Output.Persistence.Gateway;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -11,6 +12,7 @@ import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Domain.Models.Student;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.RoleEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.StudentEntity;
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.UserEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Repositories.StudentRepository;
 
 @Service
@@ -86,7 +88,13 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
         boolean flagResponse = false;
         StudentEntity studentObtained = this.serviceAccessBD.findByUsernameAndPassword(username, password);
         if(studentObtained != null) flagResponse = true;
+        System.out.println("Bnaderaaaa" + flagResponse);
         return flagResponse;
+    }
+
+    @Override
+    public Optional<UserEntity> userToToken(String username) {
+        return this.serviceAccessBD.findByUsername(username);
     }
 
 }

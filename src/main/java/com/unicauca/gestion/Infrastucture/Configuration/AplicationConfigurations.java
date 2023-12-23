@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-public class AplicationConfig {
+public class AplicationConfigurations {
 
     private final UserRepository userRepository;
 

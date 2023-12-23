@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.unicauca.gestion.Apliccation.Input.ManageStudentCUIntPort;
 import com.unicauca.gestion.Apliccation.Output.ManageStudentGatewayIntPort;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
+import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Domain.Models.Student;
 
@@ -113,5 +114,10 @@ public class ManageStudentCUImplAdapter implements ManageStudentCUIntPort {
     @Override
     public List<Role> getRoles() {
         return this.gatewayStudent.findAllRoles();
+    }
+
+    @Override
+    public List<Course> getCoursesStudent(long idStudent) {
+        return this.gatewayStudent.getCoursesStudent(idStudent);
     }
 }

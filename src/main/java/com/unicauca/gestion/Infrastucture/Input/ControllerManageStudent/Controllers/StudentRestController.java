@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unicauca.gestion.Apliccation.Input.ManageStudentCUIntPort;
 import com.unicauca.gestion.Domain.Models.Student;
+import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.DTOResponse.CourseDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTORequest.StudentDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOResponse.StudentDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.mappers.StudentMapperInfrastuctureDomain;
@@ -24,6 +25,8 @@ import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.RoleDTORespo
 
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
+
+import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Role;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,5 +134,15 @@ public class StudentRestController {
         }
 
         return new ResponseEntity<StudentDTOResponse>(objStudent, HttpStatus.OK);
+    }
+
+    @GetMapping("/students/courses/{idStudent}")
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Estudiante')")
+    public ResponseEntity<List<CourseDTOResponse>> getCourses(@PathVariable long idStudent){
+        List<Course> courses = this.studentCU.getCoursesStudent(idStudent);
+        ResponseEntity<List<CourseDTOResponse>> objResponse = new ResponseEntity<List<CourseDTOResponse>>(
+            this.mapper.mapCourseToResponse(courses),HttpStatus.OK);
+        return objResponse;
     }
 }

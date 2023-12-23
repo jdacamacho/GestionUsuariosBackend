@@ -5,10 +5,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.unicauca.gestion.Domain.Models.AcademicSemester;
 import com.unicauca.gestion.Domain.Models.Address;
+import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Professor;
 import com.unicauca.gestion.Domain.Models.ProfessorType;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.AcademicSemesterEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.AddressEntity;
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.CourseEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorTypeEntity;
 
@@ -32,6 +34,9 @@ public class Mapper {
 
         TypeMap<AcademicSemesterEntity,AcademicSemester> mapAcademicSemester = mapper.emptyTypeMap(AcademicSemesterEntity.class,AcademicSemester.class);
         mapAcademicSemester.addMappings(m -> m.skip(AcademicSemester::setCourses)).implicitMappings();
+
+        TypeMap<CourseEntity,Course> mapCourse = mapper.emptyTypeMap(CourseEntity.class, Course.class);
+        mapCourse.addMappings(m -> m.skip(Course::setStudents)).implicitMappings();
 
         return mapper;
     }

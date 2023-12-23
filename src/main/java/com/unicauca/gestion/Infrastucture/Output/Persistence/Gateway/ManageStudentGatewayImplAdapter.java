@@ -7,8 +7,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import com.unicauca.gestion.Apliccation.Output.ManageStudentGatewayIntPort;
+import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Role;
 import com.unicauca.gestion.Domain.Models.Student;
+import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.CourseEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.RoleEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.StudentEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Repositories.StudentRepository;
@@ -72,6 +74,14 @@ public class ManageStudentGatewayImplAdapter implements ManageStudentGatewayIntP
         StudentEntity student = this.serviceAccessBD.findByCodeStudent(codeStudent);
         if(student != null) flagResponse = true;
         return flagResponse;
-    }  
+    }
+
+    @Override
+    public List<Course> getCoursesStudent(long idStudent) {
+        List<CourseEntity> coursesObtained = this.serviceAccessBD.findCoursesByStudentCode(idStudent);
+        List<Course> courseResponse = this.mapper.map(coursesObtained, new TypeToken<List<Course>>(){   
+        }.getType());
+        return courseResponse;
+    }
 
 }

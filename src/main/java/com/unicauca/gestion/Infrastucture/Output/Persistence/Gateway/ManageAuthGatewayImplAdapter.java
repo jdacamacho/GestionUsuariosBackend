@@ -21,21 +21,5 @@ public class ManageAuthGatewayImplAdapter implements ManageAuthGatewayIntPort{
     public Optional<UserEntity> findByUserEmail(String username) {
         return this.serviceAccessBD.findByUsername(username);
     }
-
-    @Override
-    public boolean isStudent(String username) {
-        boolean flagResponse = false;
-        long existsStundet = this.serviceAccessBD.credentionalsAreFromStudent(username);    
-        if(existsStundet > 0) flagResponse = true;
-        return flagResponse;
-    }
-
-    @Override
-    public boolean isProfessorOrAdministrador(String username) {
-        boolean flagResponse = false;
-        long existsProfessor = this.serviceAccessBD.credentionalsAreFromProfessor(username);
-        if(existsProfessor > 0) flagResponse = true;
-        return flagResponse;
-    }
-    
+ 
 }

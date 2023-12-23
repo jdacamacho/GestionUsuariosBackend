@@ -3,6 +3,7 @@ package com.unicauca.gestion.Infrastucture.Output.Formatter;
 import org.springframework.stereotype.Service;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BadCredentionalsException;
+import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BadFormatException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BussinesRuleException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityExistsException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityNotFoundException;
@@ -31,6 +32,12 @@ public class ExceptionFormatterImplAdapter implements ExceptionFormatterIntPort{
     @Override
     public void returnResponseBadCredentionales(String message) {
         BadCredentionalsException objException = new BadCredentionalsException(message);
+        throw objException;
+    }
+
+    @Override
+    public void retunrResponseBadFormat(String message) {
+        BadFormatException objException = new BadFormatException(message);
         throw objException;
     }
     

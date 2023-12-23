@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.ErrorCode;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.ExceptionStructure.ErrorUtils;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BadCredentionalsException;
+import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BadFormatException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.BussinesRuleException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityExistsException;
 import com.unicauca.gestion.Infrastucture.Output.ExceptionHandler.OwnException.EntityNotFoundException;
@@ -70,9 +71,22 @@ public class RestApiExceptionHandler {
                                         String.format("%s, %s",
                                         ErrorCode.BAD_CREDENTIALS.getMessageKey(),
                                         ex.getMessage()),
-                                        HttpStatus.NOT_FOUND.value())
+                                        HttpStatus.NON_AUTHORITATIVE_INFORMATION.value())
                                         .setUrl(req.getRequestURL().toString()).setMethod(req.getMethod());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    }
+
+    @ExceptionHandler(BadFormatException.class)
+    public ResponseEntity<Error> handleGenericException(final HttpServletRequest req,
+                    final BadFormatException ex, final Locale locale) {
+        final Error error = ErrorUtils
+                        .createError(ErrorCode.BAD_FORMAT.getCode(),
+                                        String.format("%s, %s",
+                                        ErrorCode.BAD_FORMAT.getMessageKey(),
+                                        ex.getMessage()),
+                                        HttpStatus.NOT_ACCEPTABLE.value())
+                                        .setUrl(req.getRequestURL().toString()).setMethod(req.getMethod());
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(BussinesRuleException.class)

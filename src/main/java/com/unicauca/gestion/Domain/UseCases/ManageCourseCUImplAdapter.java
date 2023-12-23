@@ -1,7 +1,12 @@
 package com.unicauca.gestion.Domain.UseCases;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.unicauca.gestion.Apliccation.Input.ManageCourseCUIntPort;
@@ -15,11 +20,13 @@ import com.unicauca.gestion.Domain.Models.Student;
 public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
     private final ManageCourseGatewayIntPort gatewayCourse;
     private final ExceptionFormatterIntPort formatterCourse;
+    private final String uploadDir;
 
     public ManageCourseCUImplAdapter(ManageCourseGatewayIntPort gatewayCourse,
                                         ExceptionFormatterIntPort formatterCourse){
         this.gatewayCourse = gatewayCourse;
         this.formatterCourse = formatterCourse;
+        this.uploadDir = "C:\\Estudio\\AplicacionGestionUsuarios\\BackEnd-GestionUsuarios\\GestorArchivos";
     }
 
     @Override
@@ -157,9 +164,48 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
     }
 
     @Override
-    public Course uploadFile(long idCourse, MultipartFile file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'uploadFile'");
+    public Course uploadFile(long idCourse, MultipartFile file) throws FileUploadException {
+        Course course = null;
+        if(!this.gatewayCourse.existsById(idCourse)){
+            this.formatterCourse.returnResponseErrorEntityNotFound("Error, entity not found");
+        }else{
+            course = this.gatewayCourse.findById(idCourse);
+            if(course.getObjProfessor() == null){
+                this.formatterCourse.returnResponseErrorEntityNotFound("Error, course doesn't have a professor");
+            }else{
+                try {
+                    Path uploadPath = Path.of(uploadDir);
+                    if (Files.notExists(uploadPath)) {
+                        Files.createDirectories(uploadPath);
+                    }
+                    String originalFileName = file.getOriginalFilename();
+                    String extensionFile = getExtensionFile(originalFileName);
+                    if(extensionFile.equals("docx") == false){
+                        this.formatterCourse.retunrResponseBadFormat("Error, format file don't support");
+                    }else{
+                        String fileName = "Contenido_" + "_" + course.getName() + "." + extensionFile;
+                        Path filePath = uploadPath.resolve(fileName);
+                        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                        course.setRouteFileDrive(filePath.toString());
+                        course = this.gatewayCourse.save(course);
+                    } 
+                } catch (IOException e) {
+                    throw new FileUploadException("Error al cargar el archivo", e);
+                }
+            }
+        }
+        return course;
+    }
+
+    private String getExtensionFile(String originalFileName){
+        int lastDotIndex = originalFileName.lastIndexOf('.');
+        if (lastDotIndex != -1) {
+            String extension = originalFileName.substring(lastDotIndex + 1);
+            return extension.toLowerCase();
+        } else {
+            return null;
+        }
     }
 
     

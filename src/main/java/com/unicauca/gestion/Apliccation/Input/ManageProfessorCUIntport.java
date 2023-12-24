@@ -17,6 +17,6 @@ public interface ManageProfessorCUIntport {
     public List<ProfessorType> getProfessorTypes();
     public List<Course> getCourses();
     public List<Student> getStudents();
-    public List<Student> getStudentsFromCourse(String idCourse);
-    public List<Course> getCourseFromProfessor(String idProfessor);
+    public List<Student> getStudentsFromCourse(long idProfessor,long idCourse);
+    public List<Course> getCourseFromProfessor(long idProfessor);
 }

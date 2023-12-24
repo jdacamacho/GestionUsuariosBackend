@@ -1,5 +1,6 @@
 package com.unicauca.gestion.Domain.UseCases;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,9 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.unicauca.gestion.Apliccation.Input.ManageProfessorCUIntport;
 import com.unicauca.gestion.Apliccation.Output.ExceptionFormatterIntPort;
 import com.unicauca.gestion.Apliccation.Output.ManageProfesorGatewayIntPort;
+import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Professor;
 import com.unicauca.gestion.Domain.Models.ProfessorType;
 import com.unicauca.gestion.Domain.Models.Role;
+import com.unicauca.gestion.Domain.Models.Student;
 
 public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
 
@@ -121,6 +124,52 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
     @Override
     public List<ProfessorType> getProfessorTypes() {
        return this.gatewayProfessor.findAllProfessorTypes();
+    }
+
+    @Override
+    public List<Course> getCourses() {
+        return this.gatewayProfessor.findAllCourses();
+    }
+
+    @Override
+    public List<Student> getStudents() {
+        return this.gatewayProfessor.findAllStudents();
+    }
+
+    @Override
+    public List<Student> getStudentsFromCourse(long idProfessor,long idCourse) {
+        List<Student> students = new ArrayList<>();
+        if(!this.gatewayProfessor.existsById(idProfessor)){
+            this.formatterProfessor.returnResponseErrorEntityNotFound("Professor was not found");
+        }else{
+            Professor professor = this.gatewayProfessor.findById(idProfessor);
+            List<Course> coursesProfessor = professor.getCourses();
+            Course course = findCourse(coursesProfessor, idCourse);
+            students = course.getStudents();
+        }
+        return students;
+    }
+
+    @Override
+    public List<Course> getCourseFromProfessor(long idProfessor) {
+        List<Course> courses = new ArrayList<>();
+        if(!this.gatewayProfessor.existsById(idProfessor)){
+            this.formatterProfessor.returnResponseErrorEntityNotFound("Error, professor not found");
+        }else{
+            Professor professor = this.gatewayProfessor.findById(idProfessor);
+            courses = professor.getCourses();
+        }
+        return courses;
+    }
+
+    private Course findCourse(List<Course> courses, long idCourse){
+        Course objCourse = null;
+        for (Course course : courses) {
+            if(course.getCodeCourse() == idCourse){
+                return course;
+            }
+        }
+        return objCourse;
     }
 
 }

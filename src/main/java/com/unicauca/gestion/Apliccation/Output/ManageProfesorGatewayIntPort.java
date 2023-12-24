@@ -2,11 +2,9 @@ package com.unicauca.gestion.Apliccation.Output;
 
 import java.util.List;
 
-import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Professor;
 import com.unicauca.gestion.Domain.Models.ProfessorType;
 import com.unicauca.gestion.Domain.Models.Role;
-import com.unicauca.gestion.Domain.Models.Student;
 
 public interface ManageProfesorGatewayIntPort {
     public List<Professor> findAll();
@@ -17,6 +15,4 @@ public interface ManageProfesorGatewayIntPort {
     public List<Role> findAllRoles();
     public List<ProfessorType> findAllProfessorTypes();
     public boolean existByCodeProfessor(long codeProfessor);
-    public List<Student> findAllStudents();
-    public List<Course> findAllCourses();
 }

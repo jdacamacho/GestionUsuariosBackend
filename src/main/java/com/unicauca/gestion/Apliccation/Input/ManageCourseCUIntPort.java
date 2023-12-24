@@ -2,6 +2,9 @@ package com.unicauca.gestion.Apliccation.Input;
 
 import com.unicauca.gestion.Domain.Models.AcademicSemester;
 import com.unicauca.gestion.Domain.Models.Course;
+import com.unicauca.gestion.Domain.Models.Professor;
+import com.unicauca.gestion.Domain.Models.Student;
+
 import java.util.List;
 
 import org.springframework.core.io.Resource;
@@ -19,4 +22,6 @@ public interface ManageCourseCUIntPort {
     public List<AcademicSemester> getAcademicSemester();
     public Course uploadFile(long idCourse, MultipartFile file) throws FileUploadException;
     public Resource downloadFile(long idCourse);
+    public List<Student> getStudents();
+    public List<Professor> getProfessors();
 }

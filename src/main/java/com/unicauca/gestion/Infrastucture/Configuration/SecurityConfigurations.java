@@ -31,7 +31,7 @@ public class SecurityConfigurations {
             .authorizeHttpRequests(authRequest ->
               authRequest
                 .requestMatchers("/apiAuth/auth").permitAll()
-                .requestMatchers("/apiProfessor/professors/**").hasRole("Administrador")
+                .requestMatchers("/apiProfessor/admin/professors/**").hasRole("Administrador")
                 .requestMatchers("/apiStudent/students/**").hasRole("Estudiante")
                 .requestMatchers("/apiCourse/courses/**").hasRole("Administrador")
                 .requestMatchers("/apiCourse/file/upload").hasRole("Docente")

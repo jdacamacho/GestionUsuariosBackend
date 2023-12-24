@@ -83,4 +83,20 @@ public class ManageCourseGatewayImplAdapter implements ManageCourseGatewayIntPor
         Student studentResponse = this.mapper.map(studentObtained, Student.class);
         return studentResponse;
     }
+
+    @Override
+    public List<Student> findAllStudents() {
+        List<StudentEntity> studentsObtained = this.serviceAccessBD.findAllStundents();
+        List<Student> studentResponse = this.mapper.map(studentsObtained, new TypeToken<List<Student>>(){
+        }.getType());
+        return studentResponse;
+    }
+
+    @Override
+    public List<Professor> findAllProfessors() {
+        List<ProfessorEntity> professorsObtained = this.serviceAccessBD.findAllProfessors();
+        List<Professor> professorsResponse = this.mapper.map(professorsObtained, new TypeToken<List<Professor>>(){ 
+        }.getType());
+        return professorsResponse;
+    }
 }

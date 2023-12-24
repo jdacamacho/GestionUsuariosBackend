@@ -232,4 +232,14 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
         }
         return objResource;
     }
+
+    @Override
+    public List<Student> getStudents() {
+        return this.gatewayCourse.findAllStudents();
+    }
+
+    @Override
+    public List<Professor> getProfessors() {
+        return this.gatewayCourse.findAllProfessors();
+    }
 }

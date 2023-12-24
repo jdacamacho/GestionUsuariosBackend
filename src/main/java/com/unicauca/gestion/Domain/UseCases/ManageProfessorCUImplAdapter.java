@@ -127,16 +127,6 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
     }
 
     @Override
-    public List<Course> getCourses() {
-        return this.gatewayProfessor.findAllCourses();
-    }
-
-    @Override
-    public List<Student> getStudents() {
-        return this.gatewayProfessor.findAllStudents();
-    }
-
-    @Override
     public List<Student> getStudentsFromCourse(long idProfessor,long idCourse) {
         List<Student> students = new ArrayList<>();
         if(!this.gatewayProfessor.existsById(idProfessor)){

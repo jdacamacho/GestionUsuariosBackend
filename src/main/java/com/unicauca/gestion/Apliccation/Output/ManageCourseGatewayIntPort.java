@@ -15,4 +15,6 @@ public interface ManageCourseGatewayIntPort {
     public long existsUser(long idUser);
     public Professor findProfessorById(long idProfessor);
     public Student findStudentById(long idStudent);
+    public List<Student> findAllStudents();
+    public List<Professor> findAllProfessors();
 }

@@ -24,4 +24,10 @@ public interface CourseRepository extends CrudRepository<CourseEntity,Long>{
     @Query("SELECT new ProfessorEntity(p.idUser, p.names, p.lastNames, p.email, p.codeProfessor) FROM ProfessorEntity p WHERE p.idUser =:idUser")
     ProfessorEntity findProfessorById(@Param("idUser") long idUser);
 
+    @Query("from ProfessorEntity")
+    List<ProfessorEntity> findAllProfessors();
+
+    @Query("from StudentEntity")
+    List<StudentEntity> findAllStundents();
+
 }

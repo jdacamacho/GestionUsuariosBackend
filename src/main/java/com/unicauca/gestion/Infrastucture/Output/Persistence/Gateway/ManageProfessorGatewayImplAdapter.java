@@ -7,16 +7,12 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import com.unicauca.gestion.Apliccation.Output.ManageProfesorGatewayIntPort;
-import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Professor;
 import com.unicauca.gestion.Domain.Models.ProfessorType;
 import com.unicauca.gestion.Domain.Models.Role;
-import com.unicauca.gestion.Domain.Models.Student;
-import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.CourseEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.ProfessorTypeEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.RoleEntity;
-import com.unicauca.gestion.Infrastucture.Output.Persistence.Entities.StudentEntity;
 import com.unicauca.gestion.Infrastucture.Output.Persistence.Repositories.ProfessorRepository;
 
 @Service
@@ -88,21 +84,4 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
         if(professor !=  null) flagResponse = true;
         return flagResponse;
     }
-
-    @Override
-    public List<Student> findAllStudents() {
-        List<StudentEntity> studentsObtained = this.serviceAccessBD.findAllStundents();
-        List<Student> studentResponse = this.mapper.map(studentsObtained, new TypeToken<List<Student>>(){
-        }.getType());
-        return studentResponse;
-    }
-
-    @Override
-    public List<Course> findAllCourses() {
-        List<CourseEntity> coursesObtained = this.serviceAccessBD.findAllCourses();
-        List<Course> courseResponse = this.mapper.map(coursesObtained, new TypeToken<List<Course>>(){
-        }.getType());
-        return courseResponse;
-    }
-
 }

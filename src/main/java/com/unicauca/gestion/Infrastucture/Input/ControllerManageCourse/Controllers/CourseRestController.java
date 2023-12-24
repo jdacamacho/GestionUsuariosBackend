@@ -31,10 +31,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.unicauca.gestion.Apliccation.Input.ManageCourseCUIntPort;
 import com.unicauca.gestion.Domain.Models.AcademicSemester;
 import com.unicauca.gestion.Domain.Models.Course;
+import com.unicauca.gestion.Domain.Models.Professor;
+import com.unicauca.gestion.Domain.Models.Student;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.DTORequest.CourseDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.DTOResponse.AcademicSemesterDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.DTOResponse.CourseDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.mappers.CourseMapperInfrastructureDomain;
+import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTOResponse.ProfessorDTOResponse;
+import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOResponse.StudentDTOResponse;
 
 import jakarta.validation.Valid;
 
@@ -223,4 +227,24 @@ public class CourseRestController {
                 .headers(headers)
                 .body(resource);
     }
+
+    @GetMapping("/courses/students")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<StudentDTOResponse>> getStudents(){
+        List<Student> students = this.courseCU.getStudents();
+        ResponseEntity<List<StudentDTOResponse>> objResponse = new ResponseEntity<List<StudentDTOResponse>>(
+            this.mapper.mapStudenstToResponse(students),HttpStatus.OK);
+        return objResponse;
+    }
+
+    @GetMapping("/courses/professors")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<ProfessorDTOResponse>> getProfessors(){
+        List<Professor> professors = this.courseCU.getProfessors();
+        ResponseEntity<List<ProfessorDTOResponse>> objResponse = new ResponseEntity<List<ProfessorDTOResponse>>(
+            this.mapper.mapProfessorsToResponse(professors),HttpStatus.OK);
+        return objResponse;
+    }
+
+    
 }

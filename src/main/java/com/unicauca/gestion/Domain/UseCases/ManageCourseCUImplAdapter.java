@@ -176,25 +176,29 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
             if(course.getObjProfessor() == null){
                 this.formatterCourse.returnResponseErrorEntityNotFound("Error, course doesn't have a professor");
             }else{
-                try {
-                    Path uploadPath = Path.of(uploadDir);
-                    if (Files.notExists(uploadPath)) {
-                        Files.createDirectories(uploadPath);
-                    }
-                    String originalFileName = file.getOriginalFilename();
-                    String extensionFile = getExtensionFile(originalFileName);
-                    if(extensionFile.equals("docx") == false){
-                        this.formatterCourse.retunrResponseBadFormat("Error, format file don't support");
-                    }else{
-                        String fileName = "Contenido_" + course.getName() + "." + extensionFile;
-                        Path filePath = uploadPath.resolve(fileName);
-                        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                if(course.getRouteFileDrive() == null || course.getRouteFileDrive().equals("")){
+                    try {
+                        Path uploadPath = Path.of(uploadDir);
+                        if (Files.notExists(uploadPath)) {
+                            Files.createDirectories(uploadPath);
+                        }
+                        String originalFileName = file.getOriginalFilename();
+                        String extensionFile = getExtensionFile(originalFileName);
+                        if(extensionFile.equals("docx") == false){
+                            this.formatterCourse.retunrResponseBadFormat("Error, format file don't support");
+                        }else{
+                            String fileName = "Contenido_" + refactorRoute(course.getName()) + "." + extensionFile;
+                            Path filePath = uploadPath.resolve(fileName);
+                            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-                        course.setRouteFileDrive(filePath.toString());
-                        course = this.gatewayCourse.save(course);
-                    } 
-                } catch (IOException e) {
-                    throw new FileUploadException("Error al cargar el archivo", e);
+                            course.setRouteFileDrive(filePath.toString());
+                            course = this.gatewayCourse.save(course);
+                        } 
+                    }catch (IOException e) {
+                        throw new FileUploadException("Error al cargar el archivo", e);
+                    }
+                }else{
+                    this.formatterCourse.returnResponseErrorEntityExists("Error, file already exists");
                 }
             }
         }
@@ -209,6 +213,12 @@ public class ManageCourseCUImplAdapter implements ManageCourseCUIntPort{
         } else {
             return null;
         }
+    }
+
+    private String refactorRoute(String fileName){
+        String route = null;
+        route = fileName.replace(" ","_");
+        return route;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class ProfessorRestController {
     private final ManageProfessorCUIntport professorCU;
     private final ProfessorMapperInfrastuctureDomain mapper;
 
-    @GetMapping("/admin/professors")
+    @GetMapping("/adm/professors")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<ProfessorDTOResponse>> list(){
@@ -56,7 +56,7 @@ public class ProfessorRestController {
         return objResponse;
     }
 
-    @GetMapping("/admin/professors/{idProfessor}")
+    @GetMapping("/adm/professors/{idProfessor}")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> getProfessor(@PathVariable long idProfessor){
@@ -66,7 +66,7 @@ public class ProfessorRestController {
         return objResponse;
     }
 
-    @GetMapping("/admin/professors/roles")
+    @GetMapping("/adm/professors/roles")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<RoleDTOResponse>> getRoles(){
@@ -76,7 +76,7 @@ public class ProfessorRestController {
         return objResponse;
     }
 
-    @GetMapping("/admin/professors/professorsType")
+    @GetMapping("/adm/professors/professorsType")
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<ProfessorTypeDTOResponse>> getProfessorType(){
         List<ProfessorType> professorTypes = this.professorCU.getProfessorTypes();
@@ -85,7 +85,7 @@ public class ProfessorRestController {
         return objResponse;
     }
 
-    @PostMapping("/admin/professors")
+    @PostMapping("/adm/professors")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> save (@Valid @RequestBody ProfessorDTORequest professorRequest, BindingResult result){
@@ -115,7 +115,7 @@ public class ProfessorRestController {
         return new ResponseEntity<ProfessorDTOResponse>(objProfessor,HttpStatus.OK);
     }
 
-    @PutMapping("/admin/professors/{idProfessor}")
+    @PutMapping("/adm/professors/{idProfessor}")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> update (@PathVariable long idProfessor,@Valid @RequestBody ProfessorDTORequest professorRequest,BindingResult result){
@@ -145,7 +145,7 @@ public class ProfessorRestController {
         return new ResponseEntity<ProfessorDTOResponse>(objProfessor, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/professors/courses/{idProfessor}")
+    @GetMapping("/professors/courses/{idProfessor}")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Docente')")
     public ResponseEntity<List<CourseDTOResponse>> coursesProfessor(@PathVariable long idProfessor){
@@ -155,7 +155,7 @@ public class ProfessorRestController {
         return objResponse;
     }
 
-    @GetMapping("/admin/professors/courses/{idProfessor}/{idCourse}")
+    @GetMapping("/professors/courses/{idProfessor}/{idCourse}")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Docente')")
     public ResponseEntity<List<StudentDTOResponse>> stundentsCourse(@PathVariable long idProfessor, @PathVariable Long idCourse){

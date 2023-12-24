@@ -44,7 +44,7 @@ public class StudentRestController {
     private final ManageStudentCUIntPort studentCU;
     private final StudentMapperInfrastuctureDomain mapper;
 
-    @GetMapping("/students")
+    @GetMapping("/adm/students")
     @PreAuthorize("hasRole('Administrador')")
     @Transactional(readOnly = true)
     public ResponseEntity<List<StudentDTOResponse>> list(){
@@ -54,7 +54,7 @@ public class StudentRestController {
         return objResponse;
     }
 
-    @GetMapping("/students/roles")
+    @GetMapping("/adm/students/roles")
     @PreAuthorize("hasRole('Administrador')")
     @Transactional(readOnly = true)
     public ResponseEntity<List<RoleDTOResponse>> getRoles(){
@@ -64,7 +64,7 @@ public class StudentRestController {
         return objResponse;
     }
 
-    @GetMapping("/students/{idStudent}")
+    @GetMapping("/adm/students/{idStudent}")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> getStudent(@PathVariable long idStudent){
@@ -74,7 +74,7 @@ public class StudentRestController {
         return objResponse;
     }
 
-    @PostMapping("/students")
+    @PostMapping("/adm/students")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> create(@Valid @RequestBody StudentDTORequest studentRequest, BindingResult result){
@@ -105,7 +105,7 @@ public class StudentRestController {
         return new ResponseEntity<StudentDTOResponse>(objStudent, HttpStatus.OK);
     }
 
-    @PutMapping("/students/{idStudent}")
+    @PutMapping("/adm/students/{idStudent}")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> update (@PathVariable long idStudent,@Valid @RequestBody StudentDTORequest studentRequest,BindingResult result){

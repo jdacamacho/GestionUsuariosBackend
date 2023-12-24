@@ -54,7 +54,7 @@ public class CourseRestController {
     private final ManageCourseCUIntPort courseCU;
     private final CourseMapperInfrastructureDomain mapper ;
 
-    @GetMapping("/courses")
+    @GetMapping("/adm/courses")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<CourseDTOResponse>> list(){
@@ -64,7 +64,7 @@ public class CourseRestController {
         return objResponse;
     }
 
-    @GetMapping("/courses/academicSemesters")
+    @GetMapping("/adm/courses/academicSemesters")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<List<AcademicSemesterDTOResponse>> getAcademicSemesters(){
@@ -74,7 +74,7 @@ public class CourseRestController {
         return objResponse;
     }
 
-    @PostMapping("/courses")
+    @PostMapping("/adm/courses")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> save (@Valid @RequestBody CourseDTORequest courseRequest, BindingResult result){
@@ -104,7 +104,7 @@ public class CourseRestController {
         return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
     }
 
-    @PutMapping("/courses/{codeCourse}")
+    @PutMapping("/adm/courses/{codeCourse}")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> update(@PathVariable long codeCourse,@Valid @RequestBody CourseDTORequest courseRequest, BindingResult result){
@@ -134,7 +134,7 @@ public class CourseRestController {
         return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
     }
 
-    @PatchMapping("/courses/professors")
+    @PatchMapping("/adm/courses/professors")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> setProfessorToCourse(@RequestParam("idProfessor") long idProfessor, @RequestParam("codeCourse") long codeCourse){
@@ -152,7 +152,7 @@ public class CourseRestController {
         return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
     }
 
-    @DeleteMapping("/courses/professors")
+    @DeleteMapping("/adm/courses/professors")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> unsetProfessorToCourse(@RequestParam("idProfessor") long idProfessor, @RequestParam("codeCourse") long codeCourse){
@@ -170,7 +170,7 @@ public class CourseRestController {
         return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
     }
 
-    @PatchMapping("/courses/students")
+    @PatchMapping("/adm/courses/students")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> matriculateStundent(@RequestParam("idStudent") long idStudent,@RequestParam("idCourse") long idCourse){
@@ -188,7 +188,7 @@ public class CourseRestController {
         return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
     }
 
-    @DeleteMapping("/courses/students")
+    @DeleteMapping("/adm/courses/students")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<?> cancelMatriculateStundent(@RequestParam("idStudent") long idStudent,@RequestParam("idCourse") long idCourse){
@@ -206,7 +206,7 @@ public class CourseRestController {
         return new ResponseEntity<CourseDTOResponse>(objCourse,HttpStatus.OK);
     }
 
-    @PatchMapping("/file/upload")
+    @PatchMapping("/courses/upload")
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('Docente')")
     public ResponseEntity<?> uploadFile(@RequestParam("idCourse") long idCourse,@RequestParam("file") MultipartFile file) throws FileUploadException{
@@ -216,7 +216,7 @@ public class CourseRestController {
         return objResponse;
     }
 
-    @GetMapping("/file/download/{idCourse}")
+    @GetMapping("/download/file/{idCourse}")
     @Transactional(readOnly = true)
     public ResponseEntity<Resource> downloadFile(@PathVariable long idCourse){
         Resource resource = this.courseCU.downloadFile(idCourse);
@@ -230,6 +230,7 @@ public class CourseRestController {
 
     @GetMapping("/courses/students")
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Docente')")
     public ResponseEntity<List<StudentDTOResponse>> getStudents(){
         List<Student> students = this.courseCU.getStudents();
         ResponseEntity<List<StudentDTOResponse>> objResponse = new ResponseEntity<List<StudentDTOResponse>>(
@@ -239,6 +240,7 @@ public class CourseRestController {
 
     @GetMapping("/courses/professors")
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Docente')")
     public ResponseEntity<List<ProfessorDTOResponse>> getProfessors(){
         List<Professor> professors = this.courseCU.getProfessors();
         ResponseEntity<List<ProfessorDTOResponse>> objResponse = new ResponseEntity<List<ProfessorDTOResponse>>(

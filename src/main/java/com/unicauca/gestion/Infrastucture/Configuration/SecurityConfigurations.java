@@ -31,11 +31,13 @@ public class SecurityConfigurations {
             .authorizeHttpRequests(authRequest ->
               authRequest
                 .requestMatchers("/apiAuth/auth").permitAll()
-                .requestMatchers("/apiProfessor/admin/professors/**").hasRole("Docente")
+                .requestMatchers("/apiProfessor/adm/**").hasRole("Administrador")
+                .requestMatchers("/apiStudent/adm/**").hasRole("Administrador")
+                .requestMatchers("/apiCourse/adm/**").hasRole("Administrador")
                 .requestMatchers("/apiStudent/students/**").hasRole("Estudiante")
-                .requestMatchers("/apiCourse/courses/**").hasRole("Administrador")
-                .requestMatchers("/apiCourse/file/upload").hasRole("Docente")
-                .requestMatchers("/apiCourse/file/download").hasAnyRole("Docente","Administrador","Estudiante")
+                .requestMatchers("/apiProfessor/professors/**").hasRole("Docente")
+                .requestMatchers("/apiCourse/courses/download/file/**").authenticated()
+                .anyRequest().authenticated()
                 )
             .sessionManagement(sessionManager->
                 sessionManager 

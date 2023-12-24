@@ -22,4 +22,6 @@ public interface ProfessorMapperInfrastuctureDomain {
     List<ProfessorDTOResponse> mapProfessorsToResponse(List<Professor> professors);
     List<RoleDTOResponse> mapRoleToResponse(List<Role> roles);
     List<ProfessorTypeDTOResponse> mapProfessorTypeToResponse(List<ProfessorType> professorTypes); 
+    List<StudentDTOResponse> mapStudetsToResponse(List<Student> students);
+    List<CourseDTOResponse> mapCoursesToResponse(List<Course> courses);
 }

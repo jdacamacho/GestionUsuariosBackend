@@ -17,13 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unicauca.gestion.Apliccation.Input.ManageProfessorCUIntport;
+import com.unicauca.gestion.Domain.Models.Course;
 import com.unicauca.gestion.Domain.Models.Professor;
 import com.unicauca.gestion.Domain.Models.ProfessorType;
 import com.unicauca.gestion.Domain.Models.Role;
+import com.unicauca.gestion.Domain.Models.Student;
+import com.unicauca.gestion.Infrastucture.Input.ControllerManageCourse.DTOResponse.CourseDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTORequest.ProfessorDTORequest;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTOResponse.ProfessorDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.DTOResponse.ProfessorTypeDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.ControllerManageProfessor.mappers.ProfessorMapperInfrastuctureDomain;
+import com.unicauca.gestion.Infrastucture.Input.ControllerManageStudent.DTOResponse.StudentDTOResponse;
 import com.unicauca.gestion.Infrastucture.Input.UserDTO.DTOResponse.RoleDTOResponse;
 
 import jakarta.validation.Valid;
@@ -140,4 +144,26 @@ public class ProfessorRestController {
 
         return new ResponseEntity<ProfessorDTOResponse>(objProfessor, HttpStatus.OK);
     }
+
+    @GetMapping("/admin/professors/courses/{idProfessor}")
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Docente')")
+    public ResponseEntity<List<CourseDTOResponse>> coursesProfessor(@PathVariable long idProfessor){
+        List<Course> courses = this.professorCU.getCourseFromProfessor(idProfessor);
+        ResponseEntity<List<CourseDTOResponse>> objResponse = new ResponseEntity<List<CourseDTOResponse>>(
+            this.mapper.mapCoursesToResponse(courses),HttpStatus.OK);
+        return objResponse;
+    }
+
+    @GetMapping("/admin/professors/courses/{idProfessor}/{idCourse}")
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('Docente')")
+    public ResponseEntity<List<StudentDTOResponse>> stundentsCourse(@PathVariable long idProfessor, @PathVariable Long idCourse){
+        List<Student> students = this.professorCU.getStudentsFromCourse(idProfessor, idCourse);
+        ResponseEntity<List<StudentDTOResponse>> objResponse = new ResponseEntity<List<StudentDTOResponse>>(
+            this.mapper.mapStudetsToResponse(students),HttpStatus.OK);
+        return objResponse;
+    }
+
+
 }

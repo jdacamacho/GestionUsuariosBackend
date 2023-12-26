@@ -71,9 +71,9 @@ public class RestApiExceptionHandler {
                                         String.format("%s, %s",
                                         ErrorCode.BAD_CREDENTIALS.getMessageKey(),
                                         ex.getMessage()),
-                                        HttpStatus.NON_AUTHORITATIVE_INFORMATION.value())
+                                        HttpStatus.NOT_FOUND .value())
                                         .setUrl(req.getRequestURL().toString()).setMethod(req.getMethod());
-        return new ResponseEntity<>(error, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BadFormatException.class)

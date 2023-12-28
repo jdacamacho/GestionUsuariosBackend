@@ -36,6 +36,14 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
     }
 
     @Override
+    public List<Professor> findAll(long idProfessor) {
+        Iterable<ProfessorEntity> itarableProfessor = this.serviceAccessBD.getProfessors(idProfessor);
+        List<Professor> obtainedList = this.mapper.map(itarableProfessor,new TypeToken<List<Professor>>(){
+        }.getType());
+        return obtainedList;
+    }
+
+    @Override
     public boolean existsById(long idProfessor) {
         return this.serviceAccessBD.findById(idProfessor).isPresent();
     }
@@ -84,4 +92,6 @@ public class ManageProfessorGatewayImplAdapter implements ManageProfesorGatewayI
         if(professor !=  null) flagResponse = true;
         return flagResponse;
     }
+
+    
 }

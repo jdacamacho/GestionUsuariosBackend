@@ -66,9 +66,9 @@ public class StudentRestController {
         return objResponse;
     }
 
-    @GetMapping("/adm/students/{idStudent}")
+    @GetMapping("/students/{idStudent}")
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('Administrador')")
+    @PreAuthorize("hasRole('Estudiante')")
     public ResponseEntity<?> getStudent(@PathVariable long idStudent){
         Student student = this.studentCU.getStudent(idStudent);
         ResponseEntity<StudentDTOResponse> objResponse = new ResponseEntity<StudentDTOResponse>(

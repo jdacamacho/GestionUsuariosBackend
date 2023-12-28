@@ -15,7 +15,7 @@ public class UserDTOResponse {
     private String lastNames;
     private String email;
     private String username;
-    //private String password;
+    private String password;
     private long numberPhone;
     private String state;
     private List<RoleDTOResponse> roles;

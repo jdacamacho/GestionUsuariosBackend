@@ -19,9 +19,9 @@ public class ProfessorDTOResponse extends UserDTOResponse {
     }
 
     public ProfessorDTOResponse(long idUser,String names,String lastNames,String email,
-                   String username,long numberPhone, List<RoleDTOResponse> roles,
+                   String username,String password,long numberPhone, List<RoleDTOResponse> roles,
                    long codeProfessor,ProfessorTypeDTOResponse objProfessorType){
-        super(idUser, names, lastNames, email, username,numberPhone,"Habilitado",roles);
+        super(idUser, names, lastNames, email, username,password,numberPhone,"Habilitado",roles);
         this.codeProfessor = codeProfessor;
         this.objProfessorType = objProfessorType;
     } 

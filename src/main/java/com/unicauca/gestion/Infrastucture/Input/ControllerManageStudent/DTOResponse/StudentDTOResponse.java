@@ -19,9 +19,9 @@ public class StudentDTOResponse extends UserDTOResponse {
     }
 
     public StudentDTOResponse(long idUser,String names,String lastNames,String email,
-                   String username,long numberPhone ,List<RoleDTOResponse> roles,
+                   String username,String password,long numberPhone ,List<RoleDTOResponse> roles,
                    long codeStudent,AddressDTOResponse address){
-        super(idUser, names, lastNames, email, username,numberPhone,"Habilitado",roles);
+        super(idUser, names, lastNames, email, username,password,numberPhone,"Habilitado",roles);
         this.codeStudent = codeStudent;
         this.address = address;
     }

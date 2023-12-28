@@ -60,6 +60,11 @@ public class ManageProfessorCUImplAdapter implements ManageProfessorCUIntport {
     }
 
     @Override
+    public List<Professor> listProfessors(long idProfessor) {
+        return this.gatewayProfessor.findAll(idProfessor);
+    }
+
+    @Override
     public Professor updateProfessor(long idProfessor, Professor professor) {
         Professor objProfessor = null;
         if(this.gatewayProfessor.existsByIdUserEmailOrUsername(professor.getIdUser(), professor.getEmail(), professor.getUsername()) <= 0){

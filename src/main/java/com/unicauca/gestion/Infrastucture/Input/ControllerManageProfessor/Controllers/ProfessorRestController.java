@@ -58,9 +58,19 @@ public class ProfessorRestController {
         return objResponse;
     }
 
-    @GetMapping("/adm/professors/{idProfessor}")
+    @GetMapping("/adm/professors/exclude/{idProfessor}")
     @Transactional(readOnly = true)
     @PreAuthorize("hasRole('Administrador')")
+    public ResponseEntity<List<ProfessorDTOResponse>> listExcluding(@PathVariable long idProfessor){
+        List<Professor> professors = this.professorCU.listProfessors(idProfessor);
+        ResponseEntity<List<ProfessorDTOResponse>> objResponse = new ResponseEntity<List<ProfessorDTOResponse>>(
+            this.mapper.mapProfessorsToResponse(professors),HttpStatus.OK);
+        return objResponse;
+    }
+
+    @GetMapping("/professors/{idProfessor}")
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasAnyRole('Docente','Administrador')")
     public ResponseEntity<?> getProfessor(@PathVariable long idProfessor){
         Professor professor = this.professorCU.getProfessor(idProfessor);
         ResponseEntity<ProfessorDTOResponse> objResponse = new ResponseEntity<ProfessorDTOResponse>(

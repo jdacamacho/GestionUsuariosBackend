@@ -11,6 +11,7 @@ import com.unicauca.gestion.Domain.Models.Student;
 public interface ManageProfessorCUIntport {
     public Professor saveProfessor(Professor professor);
     public List<Professor> listProfessors();
+    public List<Professor> listProfessors(long idProfessor);
     public Professor updateProfessor(long idProfessor , Professor professor);
     public Professor getProfessor(long idProfessor);
     public List<Role> getRoles();

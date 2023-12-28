@@ -44,7 +44,6 @@ public class UserDTORequest {
     @Size(min = 4 , max = 10 , message = "Username can't be shorter than 4 characters and longer than 10 characters")
     private String username;
 
-    @Size(min = 4 , max = 20 , message = "Username can't be shorter than 4 characters and longer than 20 characters")
     @NotNull(message = "Password can't be null" )
     @NotBlank(message = "Password can't be empty")
     private String password;

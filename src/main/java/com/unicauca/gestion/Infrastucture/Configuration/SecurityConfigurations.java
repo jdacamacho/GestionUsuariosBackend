@@ -35,7 +35,7 @@ public class SecurityConfigurations {
                 .requestMatchers("/apiStudent/adm/**").hasRole("Administrador")
                 .requestMatchers("/apiCourse/adm/**").hasRole("Administrador")
                 .requestMatchers("/apiStudent/students/**").hasRole("Estudiante")
-                .requestMatchers("/apiProfessor/professors/**").hasRole("Docente")
+                .requestMatchers("/apiProfessor/professors/**").hasAnyRole("Docente","Administrador")
                 .requestMatchers("/apiCourse/courses/download/file/**").authenticated()
                 .anyRequest().authenticated()
                 )
